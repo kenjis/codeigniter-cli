@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Part of Cli for CodeIgniter
+ *
+ * @author     Kenji Suzuki <https://github.com/kenjis>
+ * @license    MIT License
+ * @copyright  2015 Kenji Suzuki
+ * @link       https://github.com/kenjis/codeigniter-cli
+ */
+
+$path = __DIR__;
+
+// generate CodeIgniter instance
+require "{$path}/ci_instance.php";
+
+require "{$path}/vendor/autoload.php";
+
+class_alias('Kenjis\CodeIgniter_Cli\Command\Command', 'Command');
+class_alias('Kenjis\CodeIgniter_Cli\Command\Seed',    'Seeder');
+class_alias('Aura\Cli\Help', 'Help');
+
+$kernel = (new \Aura\Project_Kernel\Factory)->newKernel(
+    $path,
+    'Aura\Cli_Kernel\CliKernel'
+);
+$status = $kernel();
+exit($status);

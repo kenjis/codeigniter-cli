@@ -1,4 +1,5 @@
 <?php
+
 namespace Kenjis\CodeIgniter_Cli\_Config;
 
 use Aura\Di\Config;
@@ -9,6 +10,38 @@ class Common extends Config
     public function define(Container $di)
     {
         $di->set('aura/project-kernel:logger', $di->newInstance('Monolog\Logger'));
+
+        /* @var $ci \CI_Controller */
+        $ci =& get_instance();
+
+        $di->params['Kenjis\CodeIgniter_Cli\Command\Seed'] = array(
+            'context' => $di->lazyGet('aura/cli-kernel:context'),
+            'stdio' => $di->lazyGet('aura/cli-kernel:stdio'),
+            'ci' => $ci,
+        );
+        
+        $this->user_command_path = APPPATH . 'commands/';
+        $this->registerUserCommandClasses($di, $ci);
+    }
+
+    private function registerUserCommandClasses($di, $ci)
+    {
+        foreach (glob($this->user_command_path . '*Command.php') as $file) {
+            require_once $file;
+            $classname = basename($file, '.php');
+            if (! class_exists($classname)) {
+                $this->stdio->errln(
+                    '<<red>>No such class: ' . $classname . ' in ' . $file . '<<reset>>'
+                );
+                break;
+            }
+            
+            $di->params[$classname] = array(
+                'context' => $di->lazyGet('aura/cli-kernel:context'),
+                'stdio' => $di->lazyGet('aura/cli-kernel:stdio'),
+                'ci' => $ci,
+            );
+        }
     }
 
     public function modify(Container $di)
@@ -39,24 +72,78 @@ class Common extends Config
         $stdio = $di->get('aura/cli-kernel:stdio');
         $logger = $di->get('aura/project-kernel:logger');
         $dispatcher = $di->get('aura/cli-kernel:dispatcher');
+//        $dispatcher->setObject(
+//            'hello',
+//            function ($name = 'World') use ($context, $stdio, $logger) {
+//                $stdio->outln("Hello {$name}!");
+//                $logger->debug("Said hello to '{$name}'");
+//            }
+//        );
+
         $dispatcher->setObject(
-            'hello',
-            function ($name = 'World') use ($context, $stdio, $logger) {
-                $stdio->outln("Hello {$name}!");
-                $logger->debug("Said hello to '{$name}'");
-            }
+            'seed',
+            $di->lazyNew('Kenjis\CodeIgniter_Cli\Command\Seed')
         );
+        
+        $this->registerUserCommands($di, $dispatcher);
+    }
+
+    private function registerUserCommands($di, $dispatcher)
+    {
+        foreach (glob($this->user_command_path . '*Command.php') as $file) {
+            require_once $file;
+            $classname = basename($file, '.php');
+            if (! class_exists($classname)) {
+                $this->stdio->errln(
+                    '<<red>>No such class: ' . $classname . ' in ' . $file . '<<reset>>'
+                );
+                break;
+            }
+            
+            $command_name = strtolower(basename($classname, 'Command'));
+            $dispatcher->setObject(
+                $command_name,
+                $di->lazyNew($classname)
+            );
+        }
     }
 
     protected function modifyCliHelpService(Container $di)
     {
         $help_service = $di->get('aura/cli-kernel:help_service');
 
-        $help = $di->newInstance('Aura\Cli\Help');
-        $help_service->set('hello', function () use ($help) {
-            $help->setUsage(array('', '<noun>'));
-            $help->setSummary("A demonstration 'hello world' command.");
-            return $help;
-        });
+//        $help = $di->newInstance('Aura\Cli\Help');
+//        $help_service->set('hello', function () use ($help) {
+//            $help->setUsage(array('', '<noun>'));
+//            $help->setSummary("A demonstration 'hello world' command.");
+//            return $help;
+//        });
+
+        $help_service->set(
+            'seed',
+            $di->lazyNew('Kenjis\CodeIgniter_Cli\Command\SeedHelp')
+        );
+        
+        $this->registerUserCommandHelps($di, $help_service);
+    }
+
+    private function registerUserCommandHelps($di, $help_service)
+    {
+        foreach (glob($this->user_command_path . '*CommandHelp.php') as $file) {
+            require_once $file;
+            $classname = basename($file, '.php');
+            if (! class_exists($classname)) {
+                $this->stdio->errln(
+                    '<<red>>No such class: ' . $classname . ' in ' . $file . '<<reset>>'
+                );
+                break;
+            }
+            
+            $command_name = strtolower(basename($classname, 'CommandHelp'));
+            $help_service->set(
+                $command_name,
+                $di->lazyNew($classname)
+            );
+        }
     }
 }

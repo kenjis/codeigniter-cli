@@ -1,4 +1,5 @@
 <?php
+
 namespace Kenjis\CodeIgniter_Cli\_Config;
 
 use Aura\Di\Config;

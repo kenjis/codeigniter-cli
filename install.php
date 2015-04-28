@@ -20,7 +20,8 @@ class Installer
         @mkdir('tmp', 0755);
         @mkdir('tmp/log', 0755);
         
-        copy('vendor/kenjis/codeigniter-cli/cli/console.php', 'console.php');
+        copy('vendor/kenjis/codeigniter-cli/cli', 'cli');
+        copy('vendor/kenjis/codeigniter-cli/ci_instance.php', 'ci_instance.php');
     }
 
     /**
