@@ -7,6 +7,10 @@ use Aura\Di\Container;
 
 class Common extends Config
 {
+    private $commands = [
+        'Seed', 'Migrate',
+    ];
+
     public function define(Container $di)
     {
         $di->set('aura/project-kernel:logger', $di->newInstance('Monolog\Logger'));
@@ -14,12 +18,15 @@ class Common extends Config
         /* @var $ci \CI_Controller */
         $ci =& get_instance();
 
-        $di->params['Kenjis\CodeIgniter_Cli\Command\Seed'] = array(
-            'context' => $di->lazyGet('aura/cli-kernel:context'),
-            'stdio' => $di->lazyGet('aura/cli-kernel:stdio'),
-            'ci' => $ci,
-        );
-        
+        foreach ($this->commands as $command) {
+            $class = 'Kenjis\CodeIgniter_Cli\Command\\' . $command;
+            $di->params[$class] = [
+                'context' => $di->lazyGet('aura/cli-kernel:context'),
+                'stdio' => $di->lazyGet('aura/cli-kernel:stdio'),
+                'ci' => $ci,
+            ];
+        }
+
         $this->user_command_path = APPPATH . 'commands/';
         $this->registerUserCommandClasses($di, $ci);
     }
@@ -80,11 +87,15 @@ class Common extends Config
 //            }
 //        );
 
-        $dispatcher->setObject(
-            'seed',
-            $di->lazyNew('Kenjis\CodeIgniter_Cli\Command\Seed')
-        );
-        
+        foreach ($this->commands as $command) {
+            $class = 'Kenjis\CodeIgniter_Cli\Command\\' . $command;
+            $command_name = strtolower($command);
+            $dispatcher->setObject(
+                $command_name,
+                $di->lazyNew($class)
+            );
+        }
+
         $this->registerUserCommands($di, $dispatcher);
     }
 
@@ -119,11 +130,15 @@ class Common extends Config
 //            return $help;
 //        });
 
-        $help_service->set(
-            'seed',
-            $di->lazyNew('Kenjis\CodeIgniter_Cli\Command\SeedHelp')
-        );
-        
+        foreach ($this->commands as $command) {
+            $class = 'Kenjis\CodeIgniter_Cli\Command\\' . $command . 'Help';
+            $command_name = strtolower($command);
+            $help_service->set(
+                $command_name,
+                $di->lazyNew($class)
+            );
+        }
+
         $this->registerUserCommandHelps($di, $help_service);
     }
 
