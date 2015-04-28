@@ -16,7 +16,7 @@ use Aura\Di\Container;
 class Common extends Config
 {
     private $commands = [
-        'Seed', 'Migrate',
+        'Seed', 'Migrate', 'Generate',
     ];
 
     public function define(Container $di)
