@@ -1,0 +1,43 @@
+{
+    "name": "aura/cli-project",
+    "type": "project",
+    "description": "A minimal command-line framework built from Aura v2 packages",
+    "keywords": [
+        "cli",
+        "command",
+        "command line",
+        "framework",
+        "project"
+    ],
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Aura.Cli_Project Contributors",
+            "homepage": "https://github.com/auraphp/Aura.Cli_Project/contributors"
+        }
+    ],
+    "require": {
+        "aura/cli-kernel": "~2.0",
+        "monolog/monolog": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/",
+            "Aura\\Cli_Project\\_Config\\": "config/"
+        }
+    },
+    "extra": {
+        "aura": {
+            "type": "project",
+            "config": {
+                "common": "Aura\\Cli_Project\\_Config\\Common",
+                "dev": "Aura\\Cli_Project\\_Config\\Dev",
+                "test": "Aura\\Cli_Project\\_Config\\Test",
+                "prod": "Aura\\Cli_Project\\_Config\\Prod"
+            }
+        },
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}
