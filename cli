@@ -10,6 +10,7 @@
  */
 
 $path = __DIR__;
+chdir($path);
 
 // generate CodeIgniter instance
 $ci = require "{$path}/ci_instance.php";
