@@ -34,7 +34,7 @@ $ cd /path/to/codeigniter/
 $ composer require kenjis/codeignier-cli --dev
 ~~~
 
-Install command file (cli) and config files (config/) to your CodeIgniter project.
+Install command file (`cli`) and config files (`config/`) to your CodeIgniter project.
 
 ~~~
 $ php vendor/kenjis/codeigniter-cli/install.php
