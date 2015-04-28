@@ -31,7 +31,7 @@ Install this project with Composer.
 
 ~~~
 $ cd /path/to/codeigniter/
-$ composer require kenjis/codeignier-cli --dev
+$ composer require kenjis/codeigniter-cli:1.0.x@dev --dev
 ~~~
 
 Install command file (`cli`) and config files (`config/`) to your CodeIgniter project.
