@@ -1,7 +1,8 @@
+<?php
 /**
  * Migration: @@classname@@
  *
- * Created by: Cli for CodeIgniter
+ * Created by: Cli for CodeIgniter <https://github.com/kenjis/codeigniter-cli>
  * Created on: @@date@@
  */
 class Migration_@@classname@@ extends CI_Migration {

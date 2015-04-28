@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Part of Cli for CodeIgniter
  *
