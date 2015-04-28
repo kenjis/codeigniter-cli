@@ -6,6 +6,25 @@ This includes a few commands and you can create your commands easily.
 
 This is based on Aura.Cli_Project 2.0.
 
+## Included Commands
+
+~~~
+generate migration ... Generates migration file skeleton
+migrate            ... Run migration
+seed               ... Seed the database
+~~~
+
+## Folder Structure
+
+```
+codeigniter/
+├── application/
+├── ci_instance.php ... script to generate CodeIgniter instance
+├── cli             ... command file
+├── config/         ... config folder
+└── vendor/
+```
+
 ## Installation
 
 Install this project with Composer.
