@@ -1,5 +1,5 @@
 <?php
-namespace Aura\Cli_Project\_Config;
+namespace Kenjis\CodeIgniter_Cli\_Config;
 
 use Aura\Di\Config;
 use Aura\Di\Container;

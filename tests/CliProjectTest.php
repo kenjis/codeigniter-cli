@@ -1,5 +1,5 @@
 <?php
-namespace Aura\Cli_Project;
+namespace Kenjis\CodeIgniter_Cli;
 
 class CliProjectTest extends \PHPUnit_Framework_TestCase
 {
