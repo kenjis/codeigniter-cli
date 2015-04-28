@@ -11,7 +11,8 @@
  * Thanks!
  */
 
-$environment = 'development';
+define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+
 $system_path = 'vendor/codeigniter/framework/system';
 $application_folder = 'application';
 
@@ -22,7 +23,6 @@ $system_path = rtrim($system_path, '/') . '/';
 
 define('BASEPATH', str_replace("\\", "/", $system_path));
 define('APPPATH', $application_folder . '/');
-define('ENVIRONMENT', $environment ? $environment : 'development');
 define('VIEWPATH', $application_folder . '/views/');
 
 require(BASEPATH . 'core/Common.php');
