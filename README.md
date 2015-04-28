@@ -1,12 +1,18 @@
 # Cli for CodeIgniter 3.0
 
+This package provides Cli framework to [CodeIgniter](https://github.com/bcit-ci/CodeIgniter) 3.0.
+
+This includes a few commands and you can create your commands easily.
+
+This is based on Aura.Cli_Project 2.0.
+
 ## Installation
 
 Install this project with Composer.
 
 ~~~
 $ cd /path/to/codeigniter/
-$ composer require kenjis/codeignier-cli
+$ composer require kenjis/codeignier-cli --dev
 ~~~
 
 Install command file (cli) and config files (config/) to your CodeIgniter project.
@@ -100,6 +106,8 @@ class TestCommand extends Command {
 }
 ~~~
 
+You can access CodeIgniter instance as `$this->ci` in Command class.
+
 Command Help class name must be `*CommandHelp.php` and be placed in `application/commands` folder.
 
 `application/commands/TestCommandHelp.php`
@@ -121,3 +129,8 @@ class TestCommandHelp extends Help {
 
 }
 ~~~
+
+## Reference
+
+* https://github.com/auraphp/Aura.Cli_Project
+* http://auraphp.com/framework/2.x/en/cli/
