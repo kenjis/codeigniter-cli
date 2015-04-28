@@ -153,3 +153,9 @@ class TestCommandHelp extends Help {
 
 * https://github.com/auraphp/Aura.Cli_Project
 * http://auraphp.com/framework/2.x/en/cli/
+
+## Related
+
+If you want to install CodeIgniter via Composer, check it.
+
+* https://github.com/kenjis/codeigniter-composer-installer
