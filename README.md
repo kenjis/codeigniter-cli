@@ -17,14 +17,14 @@ $ composer require kenjis/codeignier-cli --dev
 
 Install command file (cli) and config files (config/) to your CodeIgniter project.
 
-* This command always overwrites exsiting files.
-* You must run at CodeIgniter project top folder.
-
 ~~~
 $ php vendor/kenjis/codeigniter-cli/install.php
 ~~~
 
-Fix the paths in "ci_instance.php" if you need.
+* Above command always overwrites exsiting files.
+* You must run at CodeIgniter project top folder.
+
+Fix the paths in `ci_instance.php` if you need.
 
 ~~~php
 $system_path = 'vendor/codeigniter/framework/system';
