@@ -24,8 +24,8 @@ class Migration extends Command
             return Status::USAGE;
         }
 
-        $this->ci->load->config('migration');
-        $migration_path = $this->ci->config->item('migration_path');
+        $this->load->config('migration');
+        $migration_path = $this->config->item('migration_path');
         $file_path = $migration_path . date('YmdHis') . '_' . $classname . '.php';
 
         $template = file_get_contents(__DIR__ . '/templates/Migration.txt');

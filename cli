@@ -12,7 +12,7 @@
 $path = __DIR__;
 
 // generate CodeIgniter instance
-require "{$path}/ci_instance.php";
+$ci = require "{$path}/ci_instance.php";
 
 require "{$path}/vendor/autoload.php";
 

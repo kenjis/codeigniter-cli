@@ -18,7 +18,7 @@ use CI_Controller;
 class Seed extends Command
 {
     private $seeder_path;
-    
+
     public function __construct(Context $context, Stdio $stdio, CI_Controller $ci)
     {
         parent::__construct($context, $stdio, $ci);

@@ -75,5 +75,6 @@ function &get_instance()
     return CI_Controller::get_instance();
 }
 
-$class = 'CI_Controller';
-$instance = new $class();
+$instance = new CI_Controller();
+
+return $instance;

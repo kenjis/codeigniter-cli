@@ -33,14 +33,14 @@ codeigniter/
 
 ## Installation
 
-Install this project with Composer.
+Install this project with Composer:
 
 ~~~
 $ cd /path/to/codeigniter/
 $ composer require kenjis/codeigniter-cli:1.0.x@dev --dev
 ~~~
 
-Install command file (`cli`) and config files (`config/`) to your CodeIgniter project.
+Install command file (`cli`) and config files (`config/`) to your CodeIgniter project:
 
 ~~~
 $ php vendor/kenjis/codeigniter-cli/install.php
@@ -130,8 +130,6 @@ class TestCommand extends Command {
 
 }
 ~~~
-
-You can access CodeIgniter instance as `$this->ci` in Command class.
 
 Command Help class name must be `*CommandHelp.php` and be placed in `application/commands` folder.
 
