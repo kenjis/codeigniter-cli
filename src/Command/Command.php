@@ -12,7 +12,6 @@ namespace Kenjis\CodeIgniter_Cli\Command;
 
 use Aura\Cli\Stdio;
 use Aura\Cli\Context;
-use Aura\Cli\Status;
 use CI_Controller;
 
 abstract class Command
