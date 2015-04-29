@@ -20,7 +20,7 @@ class MigrateHelp extends Help
         $this->setUsage('[files|curver]');
         $this->setDescr(
             '<<bold>>migrate<<reset>>: Migrate up to the current version.' . PHP_EOL
-            . '    <<bold>>migrate files<<reset>>: List all migration files.' . PHP_EOL
+            . '    <<bold>>migrate status<<reset>>: List all migration files and versions.' . PHP_EOL
             . '    <<bold>>migrate curver<<reset>>: Show the current version.' . PHP_EOL
             . '    <<bold>>migrate dbver<<reset>>: Show the database version.' . PHP_EOL
         );

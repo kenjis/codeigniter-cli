@@ -19,7 +19,7 @@ class Migrate extends Command
         $this->load->library('migration');
         $this->load->config('migration');
 
-        if ($command === 'files') {
+        if ($command === 'status') {
             $this->listMigrationFiles();
             return;
         }

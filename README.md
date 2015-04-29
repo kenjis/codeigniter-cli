@@ -11,9 +11,7 @@ This is based on Aura.Cli_Project 2.0.
 ~~~
 generate migration ... Generates migration file skeleton.
 migrate            ... Run migrations.
-migrate files      ... List all migration files.
-migrate curver     ... Show the current version.
-migrate dbver      ... Show the database version.
+migrate status     ... List all migration files and versions.
 seed               ... Seed the database.
 ~~~
 
