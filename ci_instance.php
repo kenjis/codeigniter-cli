@@ -11,6 +11,9 @@
  * Thanks!
  */
 
+$cwd = getcwd();
+chdir(__DIR__);
+
 define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 $system_path = 'vendor/codeigniter/framework/system';
@@ -75,6 +78,6 @@ function &get_instance()
     return CI_Controller::get_instance();
 }
 
-$instance = new CI_Controller();
+chdir($cwd);
 
-return $instance;
+return new CI_Controller();
