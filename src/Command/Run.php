@@ -33,5 +33,6 @@ class Run extends Command
             "<<green>>php {$console} {$controller} {$method} {$arguments}<<reset>>"
         );
         passthru("php {$console} {$controller} {$method}  {$arguments}");
+        $this->stdio->outln('');
     }
 }
