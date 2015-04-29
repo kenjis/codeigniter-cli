@@ -56,9 +56,9 @@ $ php vendor/kenjis/codeigniter-cli/install.php
 Fix the paths in `ci_instance.php` if you need.
 
 ~~~php
-$system_path = 'vendor/codeigniter/framework/system';
+$system_path        = 'vendor/codeigniter/framework/system';
 $application_folder = 'application';
-$doc_root = 'public';
+$doc_root           = 'public';
 ~~~
 
 ## Usage
