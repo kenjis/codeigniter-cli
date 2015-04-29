@@ -17,7 +17,7 @@ class RunHelp extends Help
     public function init()
     {
         $this->setSummary('Run controller.');
-        $this->setUsage('<controller> [<method>]');
+        $this->setUsage('<controller> [<method> [<arg1> [<arg2> [...]]]]');
         $this->setDescr(
             'Run controller via the CLI.'
         );
