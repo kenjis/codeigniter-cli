@@ -24,13 +24,8 @@ class Migrate extends Command
             return;
         }
 
-        if ($command === 'curver') {
-            $this->showCurrentVersion();
-            return;
-        }
-
-        if ($command === 'dbver') {
-            $this->showDbVersion();
+        if ($command === 'version') {
+            $this->showVersions();
             return;
         }
 
@@ -49,25 +44,35 @@ class Migrate extends Command
         }
     }
 
-    private function showDbVersion()
-    {
-        $version = $this->getDbVersion();
-        $this->stdio->outln(
-            '<<green>>' . $version . '<<reset>>'
-        );
-    }
-
     private function getDbVersion()
     {
         $row = $this->db->select('version')->get($this->config->item('migration_table'))->row();
         return $row ? $row->version : '0';
     }
 
-    private function showCurrentVersion()
+    private function showVersions()
     {
         $this->stdio->outln(
-            '<<green>>' . $this->config->item('migration_version') . '<<reset>>'
+            ' current: <<green>>' . $this->config->item('migration_version') . '<<reset>>'
+            . ' (in config/migration.php)'
         );
+        $version = $this->getDbVersion();
+        $this->stdio->outln(
+            'database: <<bold>>' . $version . '<<reset>>'
+            . ' (in database table)'
+        );
+        $version = $this->getLatestVersion();
+        $this->stdio->outln(
+            '  latest: ' . $version . ''
+            . ' (in migration files)'
+        );
+    }
+
+    private function getLatestVersion()
+    {
+        $files = $this->migration->find_migrations();
+        end($files);
+        return key($files);
     }
 
     private function listMigrationFiles()
