@@ -9,9 +9,12 @@ This is based on Aura.Cli_Project 2.0.
 ## Included Commands
 
 ~~~
-generate migration ... Generates migration file skeleton
-migrate            ... Run migration
-seed               ... Seed the database
+generate migration ... Generates migration file skeleton.
+migrate            ... Run migrations.
+migrate files      ... List all migration files.
+migrate curver     ... Show the current version.
+migrate dbver      ... Show the database version.
+seed               ... Seed the database.
 ~~~
 
 ## Folder Structure

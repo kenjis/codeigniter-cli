@@ -29,6 +29,11 @@ class Migrate extends Command
             return;
         }
 
+        if ($command === 'dbver') {
+            $this->showDbVersion();
+            return;
+        }
+
         if ($this->migration->current() === false) {
             $this->stdio->errln(
                 '<<red>>' . $this->migration->error_string() . '<<reset>>'
@@ -37,10 +42,24 @@ class Migrate extends Command
         }
     }
 
+    private function showDbVersion()
+    {
+        $version = $this->getDbVersion();
+        $this->stdio->outln(
+            '<<green>>' . $version . '<<reset>>'
+        );
+    }
+
+    private function getDbVersion()
+    {
+        $row = $this->db->select('version')->get($this->config->item('migration_table'))->row();
+        return $row ? $row->version : '0';
+    }
+
     private function showCurrentVersion()
     {
         $this->stdio->outln(
-            $this->config->item('migration_version')
+            '<<green>>' . $this->config->item('migration_version') . '<<reset>>'
         );
     }
 
@@ -51,12 +70,21 @@ class Migrate extends Command
         );
 
         $current = $this->config->item('migration_version');
+        $db = $this->getDbVersion();
 
         $files = $this->migration->find_migrations();
-        foreach ($files as $v =>$file) {
-            if ($v === $current) {
+        foreach ($files as $v => $file) {
+            if ($v == $current && $v == $db) {
+                $this->stdio->outln(
+                    '  <<green>>' . basename($file) .' (current/database)<<reset>>'
+                );
+            } elseif ($v == $current) {
                 $this->stdio->outln(
                     '  <<green>>' . basename($file) .' (current)<<reset>>'
+                );
+            } elseif ($v == $db) {
+                $this->stdio->outln(
+                    '  <<bold>>' . basename($file) .' (database)<<reset>>'
                 );
             } else {
                 $this->stdio->outln('  ' . basename($file));
