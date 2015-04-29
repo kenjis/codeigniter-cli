@@ -1,5 +1,7 @@
 # Cli for CodeIgniter 3.0
 
+[![Latest Stable Version](https://poser.pugx.org/kenjis/codeigniter-cli/v/stable)](https://packagist.org/packages/kenjis/codeigniter-cli) [![Total Downloads](https://poser.pugx.org/kenjis/codeigniter-cli/downloads)](https://packagist.org/packages/kenjis/codeigniter-cli) [![Latest Unstable Version](https://poser.pugx.org/kenjis/codeigniter-cli/v/unstable)](https://packagist.org/packages/kenjis/codeigniter-cli) [![License](https://poser.pugx.org/kenjis/codeigniter-cli/license)](https://packagist.org/packages/kenjis/codeigniter-cli)
+
 This package provides Cli framework to [CodeIgniter](https://github.com/bcit-ci/CodeIgniter) 3.0.
 
 This includes a few commands and you can create your commands easily.
