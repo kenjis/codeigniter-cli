@@ -15,6 +15,7 @@ generate migration ... Generates migration file skeleton.
 migrate            ... Run migrations.
 migrate status     ... List all migration files and versions.
 seed               ... Seed the database.
+run                ... Run controller.
 ~~~
 
 ## Folder Structure
@@ -57,6 +58,7 @@ Fix the paths in `ci_instance.php` if you need.
 ~~~php
 $system_path = 'vendor/codeigniter/framework/system';
 $application_folder = 'application';
+$doc_root = 'public';
 ~~~
 
 ## Usage

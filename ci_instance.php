@@ -18,6 +18,7 @@ define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'developm
 
 $system_path = 'vendor/codeigniter/framework/system';
 $application_folder = 'application';
+$doc_root = 'public';
 
 if (realpath($system_path) !== false) {
     $system_path = realpath($system_path) . '/';
@@ -25,6 +26,7 @@ if (realpath($system_path) !== false) {
 $system_path = rtrim($system_path, '/') . '/';
 
 define('BASEPATH', str_replace("\\", "/", $system_path));
+define('FCPATH', $doc_root . '/');
 define('APPPATH', $application_folder . '/');
 define('VIEWPATH', $application_folder . '/views/');
 
