@@ -35,6 +35,10 @@ class Common extends Config
             ];
         }
 
+        $seeder_path = APPPATH . 'database/seeds/';
+        $di->setter['Kenjis\CodeIgniter_Cli\Command\Seed']['setSeederPath']
+            = $seeder_path;
+
         $this->user_command_path = APPPATH . 'commands/';
         $this->registerUserCommandClasses($di, $ci);
     }

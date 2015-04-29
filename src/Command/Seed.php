@@ -22,8 +22,14 @@ class Seed extends Command
     public function __construct(Context $context, Stdio $stdio, CI_Controller $ci)
     {
         parent::__construct($context, $stdio, $ci);
+    }
 
-        $this->seeder_path = APPPATH . 'database/seeds/';
+    /**
+     * @param string $seeder_path directory of seeder files
+     */
+    public function setSeederPath($seeder_path)
+    {
+        $this->seeder_path = $seeder_path;
     }
 
     /**
@@ -75,6 +81,7 @@ class Seed extends Command
             if (! class_exists($classname)) {
                 $this->stdio->errln(
                     '<<red>>No such class: ' . $classname . ' in ' . $file . '<<reset>>'
+                    . ' [' . __METHOD__ . ': line ' . __LINE__ . ']'
                 );
                 break;
             }

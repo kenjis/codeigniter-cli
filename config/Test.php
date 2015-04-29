@@ -17,6 +17,9 @@ class Test extends Config
 {
     public function define(Container $di)
     {
+        $seeder_path =  ROOTPATH . '/vendor/kenjis/codeigniter-cli/tests/Fake/seeds/';
+        $di->setter['Kenjis\CodeIgniter_Cli\Command\Seed']['setSeederPath']
+            = $seeder_path;
     }
 
     public function modify(Container $di)

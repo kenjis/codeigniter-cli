@@ -12,6 +12,9 @@
 $path = __DIR__;
 chdir($path);
 
+/** @const ROOTPATH CodeIgniter project root directory */
+define('ROOTPATH', __DIR__ . '/');
+
 // generate CodeIgniter instance
 $ci = require "{$path}/ci_instance.php";
 
