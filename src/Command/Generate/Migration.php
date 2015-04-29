@@ -15,11 +15,18 @@ use Kenjis\CodeIgniter_Cli\Command\Command;
 
 class Migration extends Command
 {
+    /**
+     * @param string $type
+     * @param string $classname
+     */
     public function __invoke($type, $classname)
     {
         if ($classname === null) {
             $this->stdio->errln(
                 '<<red>>Classname is needed<<reset>>'
+            );
+            $this->stdio->errln(
+                '  eg, generate migration CreateUserTable'
             );
             return Status::USAGE;
         }
