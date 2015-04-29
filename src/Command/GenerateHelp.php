@@ -19,7 +19,7 @@ class GenerateHelp extends Help
         $this->setSummary('Generate code.');
         $this->setUsage('<migration> <classname>');
         $this->setDescr(
-            '<<bold>>migration<<reset>>: generate migration file skeleton.' . PHP_EOL
+            '<<bold>>generate migration<<reset>>: Generate migration file skeleton.' . PHP_EOL
             . '        eg, generate migration CreateUserTable'
         );
     }
