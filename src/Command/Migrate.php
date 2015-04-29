@@ -34,6 +34,13 @@ class Migrate extends Command
             return;
         }
 
+        if ($command !== null) {
+            $this->stdio->errln(
+                '<<red>>No such command: ' . $command . '<<reset>>'
+            );
+            return Status::USAGE;
+        }
+
         if ($this->migration->current() === false) {
             $this->stdio->errln(
                 '<<red>>' . $this->migration->error_string() . '<<reset>>'
