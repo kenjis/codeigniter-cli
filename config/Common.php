@@ -43,6 +43,9 @@ class Common extends Config
         $this->registerUserCommandClasses($di, $ci);
     }
 
+    /**
+     * @param Container $di
+     */
     private function registerUserCommandClasses($di, $ci)
     {
         foreach (glob($this->user_command_path . '*Command.php') as $file) {
@@ -111,6 +114,9 @@ class Common extends Config
         $this->registerUserCommands($di, $dispatcher);
     }
 
+    /**
+     * @param Container $di
+     */
     private function registerUserCommands($di, $dispatcher)
     {
         foreach (glob($this->user_command_path . '*Command.php') as $file) {
@@ -154,6 +160,9 @@ class Common extends Config
         $this->registerUserCommandHelps($di, $help_service);
     }
 
+    /**
+     * @param Container $di
+     */
     private function registerUserCommandHelps($di, $help_service)
     {
         foreach (glob($this->user_command_path . '*CommandHelp.php') as $file) {
