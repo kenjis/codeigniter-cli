@@ -10,11 +10,19 @@
 
 namespace Kenjis\CodeIgniter_Cli\Command\Generate;
 
+use Aura\Cli\Stdio;
+use Aura\Cli\Context;
 use Aura\Cli\Status;
 use Kenjis\CodeIgniter_Cli\Command\Command;
+use CI_Controller;
 
 class Migration extends Command
 {
+    public function __construct(Context $context, Stdio $stdio, CI_Controller $ci) {
+        parent::__construct($context, $stdio, $ci);
+        $this->load->config('migration');
+    }
+
     /**
      * @param string $type
      * @param string $classname
@@ -31,7 +39,6 @@ class Migration extends Command
             return Status::USAGE;
         }
 
-        $this->load->config('migration');
         $migration_path = $this->config->item('migration_path');
         $file_path = $migration_path . date('YmdHis') . '_' . $classname . '.php';
 

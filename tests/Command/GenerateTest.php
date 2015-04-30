@@ -9,7 +9,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $ci =& get_instance();
+        $this->ci =& get_instance();
         $cli_factory = new CliFactory;
         $context = $cli_factory->newContext($GLOBALS);
         $this->stdio = $cli_factory->newStdio(
@@ -19,7 +19,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         );
         $this->stdout = $this->stdio->getStdout();
         $this->stderr = $this->stdio->getStderr();
-        $this->cmd = new Generate($context, $this->stdio, $ci);
+        $this->cmd = new Generate($context, $this->stdio, $this->ci);
     }
 
     public function test_no_generator()
@@ -43,5 +43,17 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $expected = 'Classname is needed' . PHP_EOL
             . '  eg, generate migration CreateUserTable' . PHP_EOL;
         $this->assertEquals($expected, $actual);
+    }
+
+    public function test_migration_generate()
+    {
+        $migration_path = __DIR__ . '/../Fake/migrations/';
+        $this->ci->config->set_item('migration_path', $migration_path);
+        $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
+        $this->assertEquals(0, $status);
+
+        foreach (glob($migration_path . '*_Test_of_generate_migration.php') as $file) {
+            unlink($file);
+        }
     }
 }
