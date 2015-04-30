@@ -14,8 +14,14 @@ class SeedTest extends \PHPUnit_Framework_TestCase
         $ci =& get_instance();
         $cli_factory = new CliFactory;
         $context = $cli_factory->newContext($GLOBALS);
-        $stdio = $cli_factory->newStdio();
-        $this->cmd = new Seed($context, $stdio, $ci);
+        $this->stdio = $cli_factory->newStdio(
+            'php://memory',
+            'php://memory',
+            'php://memory'
+        );
+        $this->stdout = $this->stdio->getStdout();
+        $this->stderr = $this->stdio->getStderr();
+        $this->cmd = new Seed($context, $this->stdio, $ci);
         $this->cmd->setSeederPath($this->seeder_path);
     }
 
@@ -23,7 +29,12 @@ class SeedTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Table1SeederTable2Seeder');
         $status = $this->cmd->__invoke();
-        $this->assertEquals($status, 0);
+        $this->assertEquals(0, $status);
+
+        $this->stdout->rewind();
+        $actual = $this->stdout->fread(8192);
+        $expected = 'Seeded: Table1Seeder' . PHP_EOL . 'Seeded: Table2Seeder' . PHP_EOL;
+        $this->assertEquals($expected, $actual);
     }
 
     public function test_seed_list()
@@ -35,11 +46,15 @@ class SeedTest extends \PHPUnit_Framework_TestCase
         $ci =& get_instance();
         $cli_factory = new CliFactory;
         $context = $cli_factory->newContext($GLOBALS);
-        $stdio = $cli_factory->newStdio();
-        $this->cmd = new Seed($context, $stdio, $ci);
+        $this->cmd = new Seed($context, $this->stdio, $ci);
         $this->cmd->setSeederPath($this->seeder_path);
 
         $status = $this->cmd->__invoke();
-        $this->assertEquals($status, 0);
+        $this->assertEquals(0, $status);
+
+        $this->stdout->rewind();
+        $actual = $this->stdout->fread(8192);
+        $this->assertContains('Table1Seeder', $actual);
+        $this->assertContains('Table2Seeder', $actual);
     }
 }

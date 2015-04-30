@@ -25,23 +25,23 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
     public function test_no_generator()
     {
         $status = $this->cmd->__invoke('not_exists');
-        $this->assertEquals($status, Status::FAILURE);
+        $this->assertEquals(Status::FAILURE, $status);
 
         $this->stderr->rewind();
         $actual = $this->stderr->fread(8192);
         $expected = 'No such generator class: Kenjis\CodeIgniter_Cli\Command\Generate\Not_exists' . PHP_EOL;
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function test_migration_no_classname()
     {
         $status = $this->cmd->__invoke('migration');
-        $this->assertEquals($status, Status::USAGE);
+        $this->assertEquals(Status::USAGE, $status);
 
         $this->stderr->rewind();
         $actual = $this->stderr->fread(8192);
         $expected = 'Classname is needed' . PHP_EOL
             . '  eg, generate migration CreateUserTable' . PHP_EOL;
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 }
