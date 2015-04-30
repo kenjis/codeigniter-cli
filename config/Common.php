@@ -49,15 +49,11 @@ class Common extends Config
     private function registerUserCommandClasses($di, $ci)
     {
         foreach (glob($this->user_command_path . '*Command.php') as $file) {
-            require_once $file;
-            $classname = basename($file, '.php');
-            if (! class_exists($classname)) {
-                $this->stdio->errln(
-                    '<<red>>No such class: ' . $classname . ' in ' . $file . '<<reset>>'
-                );
+            $classname = $this->findClass($file);
+            if ($classname === '') {
                 break;
             }
-            
+
             $di->params[$classname] = array(
                 'context' => $di->lazyGet('aura/cli-kernel:context'),
                 'stdio' => $di->lazyGet('aura/cli-kernel:stdio'),
