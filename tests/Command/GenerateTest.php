@@ -12,19 +12,36 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $ci =& get_instance();
         $cli_factory = new CliFactory;
         $context = $cli_factory->newContext($GLOBALS);
-        $stdio = $cli_factory->newStdio();
-        $this->cmd = new Generate($context, $stdio, $ci);
+        $this->stdio = $cli_factory->newStdio(
+            'php://memory',
+            'php://memory',
+            'php://memory'
+        );
+        $this->stdout = $this->stdio->getStdout();
+        $this->stderr = $this->stdio->getStderr();
+        $this->cmd = new Generate($context, $this->stdio, $ci);
     }
 
     public function test_no_generator()
     {
         $status = $this->cmd->__invoke('not_exists');
         $this->assertEquals($status, Status::FAILURE);
+
+        $this->stderr->rewind();
+        $actual = $this->stderr->fread(8192);
+        $expected = 'No such generator class: Kenjis\CodeIgniter_Cli\Command\Generate\Not_exists' . PHP_EOL;
+        $this->assertEquals($actual, $expected);
     }
 
     public function test_migration_no_classname()
     {
         $status = $this->cmd->__invoke('migration');
         $this->assertEquals($status, Status::USAGE);
+
+        $this->stderr->rewind();
+        $actual = $this->stderr->fread(8192);
+        $expected = 'Classname is needed' . PHP_EOL
+            . '  eg, generate migration CreateUserTable' . PHP_EOL;
+        $this->assertEquals($actual, $expected);
     }
 }
