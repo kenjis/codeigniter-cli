@@ -120,21 +120,34 @@ class Common extends Config
     private function registerUserCommands($di, $dispatcher)
     {
         foreach (glob($this->user_command_path . '*Command.php') as $file) {
-            require_once $file;
-            $classname = basename($file, '.php');
-            if (! class_exists($classname)) {
-                $this->stdio->errln(
-                    '<<red>>No such class: ' . $classname . ' in ' . $file . '<<reset>>'
-                );
+            $classname = $this->findClass($file);
+            if ($classname === '') {
                 break;
             }
-            
+
             $command_name = strtolower(basename($classname, 'Command'));
             $dispatcher->setObject(
                 $command_name,
                 $di->lazyNew($classname)
             );
         }
+    }
+
+    /**
+     * @param string $file
+     * @return string classname, if not found returns ''
+     */
+    protected function findClass($file)
+    {
+        require_once $file;
+        $classname = basename($file, '.php');
+        if (! class_exists($classname)) {
+            $this->stdio->errln(
+                '<<red>>No such class: ' . $classname . ' in ' . $file . '<<reset>>'
+            );
+            return '';
+        }
+        return $classname;
     }
 
     protected function modifyCliHelpService(Container $di)
@@ -166,15 +179,11 @@ class Common extends Config
     private function registerUserCommandHelps($di, $help_service)
     {
         foreach (glob($this->user_command_path . '*CommandHelp.php') as $file) {
-            require_once $file;
-            $classname = basename($file, '.php');
-            if (! class_exists($classname)) {
-                $this->stdio->errln(
-                    '<<red>>No such class: ' . $classname . ' in ' . $file . '<<reset>>'
-                );
+            $classname = $this->findClass($file);
+            if ($classname === '') {
                 break;
             }
-            
+
             $command_name = strtolower(basename($classname, 'CommandHelp'));
             $help_service->set(
                 $command_name,

@@ -17,6 +17,12 @@ use RuntimeException;
 
 abstract class Command
 {
+    protected $context;
+    protected $stdio;
+    protected $ci;
+    protected $db;
+    protected $dbforge;
+
     public function __construct(Context $context, Stdio $stdio, CI_Controller $ci)
     {
         $this->context = $context;
