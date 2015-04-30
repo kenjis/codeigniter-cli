@@ -96,7 +96,7 @@ class Seed extends Command
         $seeder_list = $this->findSeeder();
         foreach ($seeder_list as $file) {
             if (is_readable($file)) {
-                $this->stdio->outln('  ' . $file);
+                $this->stdio->outln('  <<green>>' . $file . '<<reset>>');
             }
         }
     }

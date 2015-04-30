@@ -17,10 +17,12 @@ class SeedHelp extends Help
     public function init()
     {
         $this->setSummary('Seed the database with records.');
-        $this->setUsage('[class]');
+        $this->setUsage('[<class>]');
         $this->setOptions(array(
-            'l,list' => "List all seeder files.",
+            'l,list' => "List all seeder files only. With this option, seeding does not run.",
         ));
-        $this->setDescr('Seed the database using Seeder class in "application/database/seeds" folder.');
+        $this->setDescr(
+            'Seed the database using Seeder class in "application/database/seeds" folder.'
+        );
     }
 }
