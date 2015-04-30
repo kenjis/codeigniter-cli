@@ -2,38 +2,44 @@
 
 namespace Kenjis\CodeIgniter_Cli\Command;
 
+use Aura\Cli\CliFactory;
+use Aura\Cli\Status;
+
 class SeedTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $ci = require_once ROOTPATH . '/ci_instance.php';
-    }
+        $this->seeder_path = ROOTPATH . '/vendor/kenjis/codeigniter-cli/tests/Fake/seeds/';
 
-    public function createCliKernel()
-    {
-        return $this->kernel = (new \Aura\Project_Kernel\Factory)->newKernel(
-            ROOTPATH,
-            'Aura\Cli_Kernel\CliKernel'
-        );
+        $ci =& get_instance();
+        $cli_factory = new CliFactory;
+        $context = $cli_factory->newContext($GLOBALS);
+        $stdio = $cli_factory->newStdio();
+        $this->cmd = new Seed($context, $stdio, $ci);
+        $this->cmd->setSeederPath($this->seeder_path);
     }
 
     public function test_seed()
     {
-        $_SERVER['argv'][1] = 'seed';
-
-        $kernel = $this->createCliKernel();
         $this->expectOutputString('Table1SeederTable2Seeder');
-        $status = $kernel();
+        $status = $this->cmd->__invoke();
         $this->assertEquals($status, 0);
     }
 
     public function test_seed_list()
     {
-        $_SERVER['argv'][1] = 'seed';
-        $_SERVER['argv'][2] = '-l';
+        $GLOBALS['argv'][1] = 'seed';
+        $GLOBALS['argv'][2] = '-l';
+        $GLOBALS['argc'] = 3;
 
-        $kernel = $this->createCliKernel();
-        $status = $kernel();
+        $ci =& get_instance();
+        $cli_factory = new CliFactory;
+        $context = $cli_factory->newContext($GLOBALS);
+        $stdio = $cli_factory->newStdio();
+        $this->cmd = new Seed($context, $stdio, $ci);
+        $this->cmd->setSeederPath($this->seeder_path);
+
+        $status = $this->cmd->__invoke();
         $this->assertEquals($status, 0);
     }
 }

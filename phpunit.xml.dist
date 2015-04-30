@@ -1,5 +1,6 @@
-<phpunit bootstrap="./phpunit.php" colors="true">
+<phpunit bootstrap="./phpunit.php" colors="true" backupGlobals="false">
     <php>
+        <env name="CI_ENV" value="testing"/>
         <env name="AURA_CONFIG_MODE" value="test"/>
     </php>
 
