@@ -54,8 +54,8 @@ Install command file (`cli`) and config files (`config/`) to your CodeIgniter pr
 $ php vendor/kenjis/codeigniter-cli/install.php
 ~~~
 
-* Above command always overwrites exsiting files.
-* You must run at CodeIgniter project top folder.
+* Above command always overwrites exisiting files.
+* You must run it at CodeIgniter project root folder.
 
 Fix the paths in `ci_instance.php` if you need.
 
@@ -74,7 +74,7 @@ $ cd /path/to/codeigniter/
 $ php cli
 ~~~
 
-Show help of a command.
+Show help for a command.
 
 ~~~
 $ php cli help seed
