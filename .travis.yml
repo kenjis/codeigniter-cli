@@ -16,5 +16,4 @@ before_script:
   - pwd
 
 script:
-  - pwd
-  - phpunit
+  - phpunit --debug
