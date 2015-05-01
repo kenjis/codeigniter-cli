@@ -18,6 +18,12 @@ class_alias('Kenjis\CodeIgniter_Cli\Command\Command', 'Command');
 class_alias('Kenjis\CodeIgniter_Cli\Command\Seed',    'Seeder');
 class_alias('Aura\Cli\Help', 'Help');
 
+// Fix argv
+$_SERVER['argv'] = [
+    ROOTPATH . 'cli',
+];
+$_SERVER['argc'] = 1;
+
 require ROOTPATH . '/ci_instance.php';
 
 /**
