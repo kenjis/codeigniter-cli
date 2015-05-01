@@ -17,7 +17,7 @@ class MigrateHelp extends Help
     public function init()
     {
         $this->setSummary('Runs the migrations.');
-        $this->setUsage('[files|curver]');
+        $this->setUsage('[<status>|<version>]');
         $this->setDescr(
             '<<bold>>migrate<<reset>>: Migrate up to the current version.' . PHP_EOL
             . '    <<bold>>migrate status<<reset>>: List all migration files and versions.' . PHP_EOL
