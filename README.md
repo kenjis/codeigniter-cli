@@ -4,6 +4,7 @@
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kenjis/codeigniter-cli/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/kenjis/codeigniter-cli/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/kenjis/codeigniter-cli/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/kenjis/codeigniter-cli/?branch=master)
+[![Build Status](https://travis-ci.org/kenjis/codeigniter-cli.svg?branch=master)](https://travis-ci.org/kenjis/codeigniter-cli)
 
 This package provides Cli framework to [CodeIgniter](https://github.com/bcit-ci/CodeIgniter) 3.0.
 
