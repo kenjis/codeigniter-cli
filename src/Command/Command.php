@@ -38,10 +38,14 @@ abstract class Command
     public function __get($property)
     {
         if (! property_exists($this->ci, $property)) {
+            ob_start();
             var_dump(debug_backtrace());
+            $backtrace = ob_get_clean();
+            file_put_contents(ROOTPATH . '/tmp/backtrace.log', $backtrace, LOCK_EX);
             $this->stdio->errln(
                 '<<red>>No such property: ' . $property . ' in CodeIgniter instance<<reset>>'
             );
+            $this->stdio->errln('Backtrace was saved in tmp/backtrace.log');
             throw new RuntimeException('Property does not exist');
         }
 
