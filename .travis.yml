@@ -16,4 +16,4 @@ before_script:
   - pwd
 
 script:
-  - phpunit --debug
+  - phpunit --debug -c phpunit.xml.dist
