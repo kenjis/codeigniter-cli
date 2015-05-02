@@ -15,7 +15,8 @@ before_script:
   - composer install
 
 script:
-  - phpunit --coverage-text --coverage-clover=vendor/kenjis/codeigniter-cli/coverage.clover
+  - phpunit --coverage-text
 
 after_script:
+  - cd vendor/kenjis/codeigniter-cli
   - php vendor/bin/coveralls -v
