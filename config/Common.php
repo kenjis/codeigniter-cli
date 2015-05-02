@@ -19,6 +19,8 @@ class Common extends Config
         'Seed', 'Migrate', 'Generate', 'Run',
     ];
 
+    private $user_command_path;
+
     public function define(Container $di)
     {
         $di->set('aura/project-kernel:logger', $di->newInstance('Monolog\Logger'));

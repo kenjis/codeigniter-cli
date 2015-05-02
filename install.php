@@ -15,7 +15,7 @@ class Installer
 {
     public static function install()
     {
-        static::recursiveCopy('vendor/kenjis/codeigniter-cli/config', 'config');
+        self::recursiveCopy('vendor/kenjis/codeigniter-cli/config', 'config');
         
         @mkdir('tmp', 0755);
         @mkdir('tmp/log', 0755);
