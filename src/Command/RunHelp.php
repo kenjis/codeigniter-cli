@@ -18,6 +18,12 @@ class RunHelp extends Help
     {
         $this->setSummary('Run controller.');
         $this->setUsage('<controller> [<method> [<arg1> [<arg2> [...]]]]');
+        $this->setUsage([
+            '<controller>',
+            '<controller> <method>',
+            '<controller> <method> <arg1>',
+            '<controller> <method> <arg1> <arg2> [...]',
+        ]);
         $this->setDescr(
             'Run controller via the CLI.'
         );

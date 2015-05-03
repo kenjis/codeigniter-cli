@@ -17,11 +17,14 @@ class MigrateHelp extends Help
     public function init()
     {
         $this->setSummary('Runs the migrations.');
-        $this->setUsage('[<status>|<version>]');
+        $this->setUsage([
+            '            Migrate up to the current version.',
+            '<version>   Migrate up to the version.',
+            'status      List all migration files and versions.',
+            'version     Show migration versions.'
+        ]);
         $this->setDescr(
-            '<<bold>>migrate<<reset>>: Migrate up to the current version.' . PHP_EOL
-            . '    <<bold>>migrate status<<reset>>: List all migration files and versions.' . PHP_EOL
-            . '    <<bold>>migrate version<<reset>>: Show migration versions.' . PHP_EOL
+            '<<bold>>migrate<<reset>> command runs the migrations and shows its status.' . PHP_EOL
         );
     }
 }
