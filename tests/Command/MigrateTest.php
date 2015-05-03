@@ -49,6 +49,18 @@ class MigrateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $status);
     }
 
+    public function test_migrate_to_version_not_exists()
+    {
+        $status = $this->cmd->__invoke('19990101120000');
+        $this->assertEquals(Status::FAILURE, $status);
+    }
+
+        public function test_migrate_to_specific_version()
+    {
+        $status = $this->cmd->__invoke('20150429110003');
+        $this->assertEquals(0, $status);
+    }
+
     public function test_status()
     {
         $status = $this->cmd->__invoke('status');

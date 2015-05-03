@@ -29,6 +29,16 @@ class Migrate extends Command
             return;
         }
 
+        // if argument is digits, migrate to the version
+        if (ctype_digit($command)) {
+            if ($this->migrateToVersion($command) === false) {
+                return Status::FAILURE;
+            } else {
+                $this->showVersions();
+                return;
+            }
+        }
+
         if ($command !== null) {
             $this->stdio->errln(
                 '<<red>>No such command: ' . $command . '<<reset>>'
@@ -36,6 +46,7 @@ class Migrate extends Command
             return Status::USAGE;
         }
 
+        // if no argument, migrate to current
         if ($this->migration->current() === false) {
             $this->stdio->errln(
                 '<<red>>' . $this->migration->error_string() . '<<reset>>'
@@ -44,6 +55,18 @@ class Migrate extends Command
         } else {
             $this->showVersions();
         }
+    }
+
+    private function migrateToVersion($version)
+    {
+        if ($this->migration->version($version) === false) {
+            $this->stdio->errln(
+                '<<red>>' . $this->migration->error_string() . '<<reset>>'
+            );
+            return false;
+        }
+        
+        return true;
     }
 
     private function getDbVersion()
