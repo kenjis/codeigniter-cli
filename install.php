@@ -22,6 +22,8 @@ class Installer
         
         copy('vendor/kenjis/codeigniter-cli/cli', 'cli');
         copy('vendor/kenjis/codeigniter-cli/ci_instance.php', 'ci_instance.php');
+        
+        chmod('cli', 0755);
     }
 
     /**
