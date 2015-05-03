@@ -41,6 +41,8 @@ class Migrate extends Command
                 '<<red>>' . $this->migration->error_string() . '<<reset>>'
             );
             return Status::FAILURE;
+        } else {
+            $this->showVersions();
         }
     }
 
