@@ -56,4 +56,18 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
             unlink($file);
         }
     }
+
+    public function test_migration_cannot_write_to_file()
+    {
+        $migration_path = __DIR__ . '/../Fake/migrations/not-exist-dir/';
+        $this->ci->config->set_item('migration_path', $migration_path);
+        $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
+        $this->assertEquals(Status::FAILURE, $status);
+        
+        $this->stderr->rewind();
+        $actual = $this->stderr->fread(8192);
+        $this->assertContains("Can't write to ", $actual);
+        $this->assertContains('Fake/migrations/not-exist-dir/', $actual);
+        $this->assertContains('Test_of_generate_migration.php', $actual);
+    }
 }

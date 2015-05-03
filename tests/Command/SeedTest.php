@@ -37,6 +37,18 @@ class SeedTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    public function test_seed_specific_class()
+    {
+        $this->expectOutputString('Table1Seeder');
+        $status = $this->cmd->__invoke('Table1Seeder');
+        $this->assertEquals(0, $status);
+
+        $this->stdout->rewind();
+        $actual = $this->stdout->fread(8192);
+        $expected = 'Seeded: Table1Seeder' . PHP_EOL;
+        $this->assertEquals($expected, $actual);
+    }
+
     public function test_seed_list()
     {
         $GLOBALS['argv'][1] = 'seed';
