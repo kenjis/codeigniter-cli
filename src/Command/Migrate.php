@@ -71,6 +71,11 @@ class Migrate extends Command
     private function getLatestVersion()
     {
         $files = $this->migration->find_migrations();
+        
+        if ($files === []) {
+            return 'null';
+        }
+        
         end($files);
         return key($files);
     }
