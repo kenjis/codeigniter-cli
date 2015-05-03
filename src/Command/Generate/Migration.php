@@ -52,8 +52,14 @@ class Migration extends Command
             date('Y/m/d H:i:s'),
         ];
         $output = str_replace($search, $replace, $template);
-        file_put_contents($file_path, $output, LOCK_EX);
+        $generated = file_put_contents($file_path, $output, LOCK_EX);
 
-        $this->stdio->outln('<<green>>Generated: ' . $file_path . '<<reset>>');
+        if ($generated !== false) {
+            $this->stdio->outln('<<green>>Generated: ' . $file_path . '<<reset>>');
+        } else {
+            $this->stdio->errln(
+                "<<red>>Can't write to \"$file_path\"<<reset>>"
+            );
+        }
     }
 }
