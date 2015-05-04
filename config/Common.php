@@ -51,7 +51,7 @@ class Common extends Config
     private function registerUserCommandClasses($di, $ci)
     {
         foreach (glob($this->user_command_path . '*Command.php') as $file) {
-            $classname = $this->findClass($file);
+            $classname = $this->findClass($di, $file);
             if ($classname === '') {
                 break;
             }
@@ -118,7 +118,7 @@ class Common extends Config
     private function registerUserCommands($di, $dispatcher)
     {
         foreach (glob($this->user_command_path . '*Command.php') as $file) {
-            $classname = $this->findClass($file);
+            $classname = $this->findClass($di, $file);
             if ($classname === '') {
                 break;
             }
@@ -135,12 +135,13 @@ class Common extends Config
      * @param string $file
      * @return string classname, if not found returns ''
      */
-    protected function findClass($file)
+    protected function findClass(Container $di, $file)
     {
         require_once $file;
         $classname = basename($file, '.php');
         if (! class_exists($classname)) {
-            $this->stdio->errln(
+            $stdio = $di->get('aura/cli-kernel:stdio');
+            $stdio->errln(
                 '<<red>>No such class: ' . $classname . ' in ' . $file . '<<reset>>'
             );
             return '';
@@ -177,7 +178,7 @@ class Common extends Config
     private function registerUserCommandHelps($di, $help_service)
     {
         foreach (glob($this->user_command_path . '*CommandHelp.php') as $file) {
-            $classname = $this->findClass($file);
+            $classname = $this->findClass($di, $file);
             if ($classname === '') {
                 break;
             }
