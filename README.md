@@ -162,6 +162,11 @@ class TestCommandHelp extends Help {
 }
 ~~~
 
+### Reference
+
+* https://github.com/auraphp/Aura.Cli_Project
+* http://auraphp.com/framework/2.x/en/cli/
+
 ## How to Run Tests
 
 To run tests, you must install CodeIgniter first.
@@ -175,11 +180,6 @@ $ cd vendor/kenjis/codeigniter-cli
 $ composer install
 $ phpunit
 ~~~
-
-## Reference
-
-* https://github.com/auraphp/Aura.Cli_Project
-* http://auraphp.com/framework/2.x/en/cli/
 
 ## Related
 
