@@ -6,7 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/kenjis/codeigniter-cli/badge.svg?branch=master)](https://coveralls.io/r/kenjis/codeigniter-cli?branch=master)
 [![Build Status](https://travis-ci.org/kenjis/codeigniter-cli.svg?branch=master)](https://travis-ci.org/kenjis/codeigniter-cli)
 
-This package provides Cli framework to [CodeIgniter](https://github.com/bcit-ci/CodeIgniter) 3.0.
+This package provides a Cli tool for [CodeIgniter](https://github.com/bcit-ci/CodeIgniter) 3.0.
 
 This includes a few commands and you can create your commands easily.
 
