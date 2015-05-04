@@ -27,13 +27,16 @@ class SeedTest extends \PHPUnit_Framework_TestCase
 
     public function test_seed()
     {
-        $this->expectOutputString('Table1SeederTable2Seeder');
+        $this->expectOutputString('Table1SeederTable2SeederTable1Seeder');
         $status = $this->cmd->__invoke();
         $this->assertEquals(0, $status);
 
         $this->stdout->rewind();
         $actual = $this->stdout->fread(8192);
-        $expected = 'Seeded: Table1Seeder' . PHP_EOL . 'Seeded: Table2Seeder' . PHP_EOL;
+        $expected = 'Seeded: Table1Seeder' . PHP_EOL
+            . 'Seeded: Table2Seeder' . PHP_EOL
+            . 'Seeded: Table1Seeder' . PHP_EOL
+            . 'Seeded: Table3Seeder' . PHP_EOL;
         $this->assertEquals($expected, $actual);
     }
 

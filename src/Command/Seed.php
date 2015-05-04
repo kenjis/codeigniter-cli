@@ -86,6 +86,7 @@ class Seed extends Command
                 break;
             }
             $seeder = new $classname($this->context, $this->stdio, $this->ci);
+            $seeder->setSeederPath($this->seeder_path);
             $this->runSeed($seeder);
             $this->stdio->outln('<<green>>Seeded: ' . $classname . '<<reset>>');
         }
