@@ -12,6 +12,9 @@ namespace Kenjis\CodeIgniter_Cli\Command;
 
 use Aura\Cli\Status;
 
+/**
+  * @property \CI_Migration $migration
+  */
 class Migrate extends Command
 {
     public function __invoke($command = null)
