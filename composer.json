@@ -1,7 +1,7 @@
 {
     "name": "kenjis/codeigniter-cli",
     "type": "project",
-    "description": "A command-line framework for CodeIgniter 3.0",
+    "description": "A command-line tool for CodeIgniter 3.0",
     "keywords": [
         "cli",
         "command",
