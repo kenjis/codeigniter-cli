@@ -21,9 +21,9 @@ class SeedHelp extends Help
             '',
             '<class>'
         ]);
-        $this->setOptions(array(
+        $this->setOptions([
             'l,list' => "List all seeder files only. With this option, seeding does not run.",
-        ));
+        ]);
         $this->setDescr(
             'Seed the database using Seeder class in "application/database/seeds" folder.'
         );

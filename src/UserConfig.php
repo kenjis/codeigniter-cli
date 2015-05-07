@@ -23,11 +23,11 @@ class UserConfig
                     break;
                 }
 
-                $di->params[$classname] = array(
+                $di->params[$classname] = [
                     'context' => $di->lazyGet('aura/cli-kernel:context'),
                     'stdio'   => $di->lazyGet('aura/cli-kernel:stdio'),
                     'ci'      => $ci,
-                );
+                ];
             }
         }
     }

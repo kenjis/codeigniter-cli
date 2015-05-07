@@ -11,21 +11,21 @@ class UserConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->di = new Container(new Factory);
         $this->di->set('aura/cli-kernel:stdio', $this->di->lazyNew('Aura\Cli\Stdio'));
-        $this->di->params['Aura\Cli\Stdio'] = array(
-            'stdin' => $this->di->lazyNew('Aura\Cli\Stdio\Handle', array(
+        $this->di->params['Aura\Cli\Stdio'] = [
+            'stdin' => $this->di->lazyNew('Aura\Cli\Stdio\Handle', [
                 'name' => 'php://memory',
                 'mode' => 'r',
-            )),
-            'stdout' => $this->di->lazyNew('Aura\Cli\Stdio\Handle', array(
+            ]),
+            'stdout' => $this->di->lazyNew('Aura\Cli\Stdio\Handle', [
                 'name' => 'php://memory',
                 'mode' => 'w+',
-            )),
-            'stderr' => $this->di->lazyNew('Aura\Cli\Stdio\Handle', array(
+            ]),
+            'stderr' => $this->di->lazyNew('Aura\Cli\Stdio\Handle', [
                 'name' => 'php://memory',
                 'mode' => 'w+',
-            )),
+            ]),
             'formatter' => $this->di->lazyNew('Aura\Cli\Stdio\Formatter'),
-        );
+        ];
     }
 
     public function test_registerCommandClasses()
@@ -54,9 +54,9 @@ class UserConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->di->set(
             'aura/cli-kernel:dispatcher',
-            $this->di->lazyNew('Aura\Dispatcher\Dispatcher', array(
+            $this->di->lazyNew('Aura\Dispatcher\Dispatcher', [
                 'object_param' => 'command',
-            )
+            ]
         ));
         $dispatcher = $this->di->get('aura/cli-kernel:dispatcher');
         $paths = [ __DIR__ . '/Fake/user_commands/' ];

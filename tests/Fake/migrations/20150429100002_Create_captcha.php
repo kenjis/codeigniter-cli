@@ -9,23 +9,23 @@
 class Migration_Create_captcha extends CI_Migration {
 
     public function up() {
-        $this->dbforge->add_field(array(
-            'captcha_id' => array(
+        $this->dbforge->add_field([
+            'captcha_id' => [
                 'type' => 'BIGINT',
                 'constraint' => 13,
                 'unsigned' => TRUE,
                 'auto_increment' => TRUE
-            ),
-            'captcha_time' => array(
+            ],
+            'captcha_time' => [
                 'type' => 'INT',
                 'constraint' => 10,
                 'unsigned' => TRUE,
-            ),
-            'word' => array(
+            ],
+            'word' => [
                 'type' => 'VARCHAR',
                 'constraint' => '20',
-            ),
-        ));
+            ],
+        ]);
         $this->dbforge->add_key('captcha_id', TRUE);
         $this->dbforge->add_key('word');
         $this->dbforge->create_table('captcha');

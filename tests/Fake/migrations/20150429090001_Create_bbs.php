@@ -9,41 +9,41 @@
 class Migration_Create_bbs extends CI_Migration {
 
     public function up() {
-        $this->dbforge->add_field(array(
-            'id' => array(
+        $this->dbforge->add_field([
+            'id' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'auto_increment' => TRUE
-            ),
-            'name' => array(
+            ],
+            'name' => [
                 'type' => 'VARCHAR',
                 'constraint' => '64',
-            ),
-            'email' => array(
+            ],
+            'email' => [
                 'type' => 'VARCHAR',
                 'constraint' => '64',
                 'null' => TRUE,
-            ),
-            'subject' => array(
+            ],
+            'subject' => [
                 'type' => 'VARCHAR',
                 'constraint' => '128',
                 'null' => TRUE,
-            ),
-            'body' => array(
+            ],
+            'body' => [
                 'type' => 'TEXT',
                 'null' => TRUE,
-            ),
-            'password' => array(
+            ],
+            'password' => [
                 'type' => 'VARCHAR',
                 'constraint' => '32',
                 'null' => TRUE,
-            ),
-            'ip_address' => array(
+            ],
+            'ip_address' => [
                 'type' => 'VARCHAR',
                 'constraint' => '39',
                 'null' => TRUE,
-            ),
-        ));
+            ],
+        ]);
 
         $this->dbforge->add_key('id', TRUE);
         $this->dbforge->create_table('bbs');

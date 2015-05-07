@@ -46,7 +46,7 @@ class Common extends Config
         $di->setter['Kenjis\CodeIgniter_Cli\Command\Seed']['setSeederPath']
             = $seeder_path;
 
-        $this->user_command_paths = [ APPPATH . 'commands/'] ;
+        $this->user_command_paths = [ APPPATH . 'commands/' ];
         // register user command classes
         UserConfig::registerCommandClasses($di, $ci, $this->user_command_paths);
     }
