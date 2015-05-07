@@ -75,17 +75,10 @@ class Common extends Config
 
     protected function modifyCliDispatcher(Container $di)
     {
-        $context = $di->get('aura/cli-kernel:context');
-        $stdio = $di->get('aura/cli-kernel:stdio');
-        $logger = $di->get('aura/project-kernel:logger');
+//        $context = $di->get('aura/cli-kernel:context');
+//        $stdio = $di->get('aura/cli-kernel:stdio');
+//        $logger = $di->get('aura/project-kernel:logger');
         $dispatcher = $di->get('aura/cli-kernel:dispatcher');
-//        $dispatcher->setObject(
-//            'hello',
-//            function ($name = 'World') use ($context, $stdio, $logger) {
-//                $stdio->outln("Hello {$name}!");
-//                $logger->debug("Said hello to '{$name}'");
-//            }
-//        );
 
         // register system commands
         foreach ($this->commands as $command) {
@@ -104,13 +97,6 @@ class Common extends Config
     protected function modifyCliHelpService(Container $di)
     {
         $help_service = $di->get('aura/cli-kernel:help_service');
-
-//        $help = $di->newInstance('Aura\Cli\Help');
-//        $help_service->set('hello', function () use ($help) {
-//            $help->setUsage(array('', '<noun>'));
-//            $help->setSummary("A demonstration 'hello world' command.");
-//            return $help;
-//        });
 
         // register system command helps
         foreach ($this->commands as $command) {
