@@ -54,8 +54,7 @@ class Common extends Config
     public function modify(Container $di)
     {
         $this->modifyLogger($di);
-        $this->modifyCliDispatcher($di);
-        $this->modifyCliHelpService($di);
+        $this->modifyCliDispatcherAndHelp($di);
     }
 
     protected function modifyLogger(Container $di)
@@ -73,12 +72,13 @@ class Common extends Config
         ));
     }
 
-    protected function modifyCliDispatcher(Container $di)
+    protected function modifyCliDispatcherAndHelp(Container $di)
     {
 //        $context = $di->get('aura/cli-kernel:context');
 //        $stdio = $di->get('aura/cli-kernel:stdio');
 //        $logger = $di->get('aura/project-kernel:logger');
         $dispatcher = $di->get('aura/cli-kernel:dispatcher');
+        $help_service = $di->get('aura/cli-kernel:help_service');
 
         // register system commands
         foreach ($this->commands as $command) {
@@ -88,31 +88,17 @@ class Common extends Config
                 $command_name,
                 $di->lazyNew($class)
             );
-        }
 
-        // register user commands
-        UserConfig::registerCommands($di, $dispatcher, $this->user_command_paths);
-    }
-
-    protected function modifyCliHelpService(Container $di)
-    {
-        $help_service = $di->get('aura/cli-kernel:help_service');
-
-        // register system command helps
-        foreach ($this->commands as $command) {
-            $class = 'Kenjis\CodeIgniter_Cli\Command\\' . $command . 'Help';
-            $command_name = strtolower($command);
+            $help_class = 'Kenjis\CodeIgniter_Cli\Command\\' . $command . 'Help';
             $help_service->set(
                 $command_name,
-                $di->lazyNew($class)
+                $di->lazyNew($help_class)
             );
         }
 
-        // register user command helps
-        UserConfig::registerCommandHelps(
-            $di,
-            $help_service,
-            $this->user_command_paths
+                // register user commands
+        UserConfig::registerCommands(
+            $di, $dispatcher, $help_service, $this->user_command_paths
         );
     }
 }

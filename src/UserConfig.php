@@ -50,7 +50,9 @@ class UserConfig
         return $classname;
     }
 
-    public static function registerCommands(Container $di, $dispatcher, array $paths)
+    public static function registerCommands(
+        Container $di, $dispatcher, $help_service, array $paths
+    )
     {
         foreach ($paths as $path) {
             foreach (glob($path . '*Command.php') as $file) {
@@ -65,12 +67,7 @@ class UserConfig
                     $di->lazyNew($classname)
                 );
             }
-        }
-    }
 
-    public static function registerCommandHelps(Container $di, $help_service, array $paths)
-    {
-        foreach ($paths as $path) {
             foreach (glob($path . '*CommandHelp.php') as $file) {
                 $classname = static::findClass($di, $file);
                 if ($classname === '') {

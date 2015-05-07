@@ -59,22 +59,15 @@ class UserConfigTest extends \PHPUnit_Framework_TestCase
             ]
         ));
         $dispatcher = $this->di->get('aura/cli-kernel:dispatcher');
-        $paths = [ __DIR__ . '/Fake/user_commands/' ];
-        UserConfig::registerCommands($this->di, $dispatcher, $paths);
-        
-        $this->assertTrue($dispatcher->hasObject('test'));
-    }
-
-    public function test_registerCommandHelps()
-    {
         $this->di->set(
             'aura/cli-kernel:help_service',
             $this->di->lazyNew('Aura\Cli_Kernel\HelpService')
         );
         $help_service = $this->di->get('aura/cli-kernel:help_service');
         $paths = [ __DIR__ . '/Fake/user_commands/' ];
-        UserConfig::registerCommandHelps($this->di, $help_service, $paths);
+        UserConfig::registerCommands($this->di, $dispatcher, $help_service, $paths);
         
+        $this->assertTrue($dispatcher->hasObject('test'));
         $this->assertTrue($help_service->has('test'));
     }
 }
