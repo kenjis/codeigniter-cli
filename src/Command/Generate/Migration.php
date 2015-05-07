@@ -16,6 +16,10 @@ use Aura\Cli\Status;
 use Kenjis\CodeIgniter_Cli\Command\Command;
 use CI_Controller;
 
+/**
+ * @property \CI_Loader $load
+ * @property \CI_Config $config
+ */
 class Migration extends Command
 {
     public function __construct(Context $context, Stdio $stdio, CI_Controller $ci) {
