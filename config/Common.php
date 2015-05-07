@@ -12,14 +12,18 @@ namespace Kenjis\CodeIgniter_Cli\_Config;
 
 use Aura\Di\Config;
 use Aura\Di\Container;
+use Kenjis\CodeIgniter_Cli\UserConfig;
 
 class Common extends Config
 {
+    /**
+     * @var array list of system commands
+     */
     private $commands = [
         'Seed', 'Migrate', 'Generate', 'Run',
     ];
 
-    private $user_command_path;
+    private $user_command_paths = [];
 
     public function define(Container $di)
     {
@@ -28,6 +32,7 @@ class Common extends Config
         /* @var $ci \CI_Controller */
         $ci =& get_instance();
 
+        // register system command classes
         foreach ($this->commands as $command) {
             $class = 'Kenjis\CodeIgniter_Cli\Command\\' . $command;
             $di->params[$class] = [
@@ -41,27 +46,9 @@ class Common extends Config
         $di->setter['Kenjis\CodeIgniter_Cli\Command\Seed']['setSeederPath']
             = $seeder_path;
 
-        $this->user_command_path = APPPATH . 'commands/';
-        $this->registerUserCommandClasses($di, $ci);
-    }
-
-    /**
-     * @param Container $di
-     */
-    private function registerUserCommandClasses($di, $ci)
-    {
-        foreach (glob($this->user_command_path . '*Command.php') as $file) {
-            $classname = $this->findClass($di, $file);
-            if ($classname === '') {
-                break;
-            }
-
-            $di->params[$classname] = array(
-                'context' => $di->lazyGet('aura/cli-kernel:context'),
-                'stdio' => $di->lazyGet('aura/cli-kernel:stdio'),
-                'ci' => $ci,
-            );
-        }
+        $this->user_command_paths = [ APPPATH . 'commands/'] ;
+        // register user command classes
+        UserConfig::registerCommandClasses($di, $ci, $this->user_command_paths);
     }
 
     public function modify(Container $di)
@@ -100,6 +87,7 @@ class Common extends Config
 //            }
 //        );
 
+        // register system commands
         foreach ($this->commands as $command) {
             $class = 'Kenjis\CodeIgniter_Cli\Command\\' . $command;
             $command_name = strtolower($command);
@@ -109,44 +97,8 @@ class Common extends Config
             );
         }
 
-        $this->registerUserCommands($di, $dispatcher);
-    }
-
-    /**
-     * @param Container $di
-     */
-    private function registerUserCommands($di, $dispatcher)
-    {
-        foreach (glob($this->user_command_path . '*Command.php') as $file) {
-            $classname = $this->findClass($di, $file);
-            if ($classname === '') {
-                break;
-            }
-
-            $command_name = strtolower(basename($classname, 'Command'));
-            $dispatcher->setObject(
-                $command_name,
-                $di->lazyNew($classname)
-            );
-        }
-    }
-
-    /**
-     * @param string $file
-     * @return string classname, if not found returns ''
-     */
-    protected function findClass(Container $di, $file)
-    {
-        require_once $file;
-        $classname = basename($file, '.php');
-        if (! class_exists($classname)) {
-            $stdio = $di->get('aura/cli-kernel:stdio');
-            $stdio->errln(
-                '<<red>>No such class: ' . $classname . ' in ' . $file . '<<reset>>'
-            );
-            return '';
-        }
-        return $classname;
+        // register user commands
+        UserConfig::registerCommands($di, $dispatcher, $this->user_command_paths);
     }
 
     protected function modifyCliHelpService(Container $di)
@@ -160,6 +112,7 @@ class Common extends Config
 //            return $help;
 //        });
 
+        // register system command helps
         foreach ($this->commands as $command) {
             $class = 'Kenjis\CodeIgniter_Cli\Command\\' . $command . 'Help';
             $command_name = strtolower($command);
@@ -169,25 +122,11 @@ class Common extends Config
             );
         }
 
-        $this->registerUserCommandHelps($di, $help_service);
-    }
-
-    /**
-     * @param Container $di
-     */
-    private function registerUserCommandHelps($di, $help_service)
-    {
-        foreach (glob($this->user_command_path . '*CommandHelp.php') as $file) {
-            $classname = $this->findClass($di, $file);
-            if ($classname === '') {
-                break;
-            }
-
-            $command_name = strtolower(basename($classname, 'CommandHelp'));
-            $help_service->set(
-                $command_name,
-                $di->lazyNew($classname)
-            );
-        }
+        // register user command helps
+        UserConfig::registerCommandHelps(
+            $di,
+            $help_service,
+            $this->user_command_paths
+        );
     }
 }
