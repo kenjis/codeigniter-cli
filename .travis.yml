@@ -7,9 +7,15 @@ php:
 
 before_script:
   - composer self-update
+  - pwd
+  - export cwd=`pwd`
+  - cd ..
+  - pwd
   - composer create-project kenjis/codeigniter-composer-installer codeigniter
   - cd codeigniter
   - composer require kenjis/codeigniter-cli:1.0.x@dev --dev
+  - mv vendor/kenjis/codeigniter-cli vendor/kenjis/codeigniter-cli.tmp
+  - mv "$cwd" vendor/kenjis/codeigniter-cli
   - php vendor/kenjis/codeigniter-cli/install.php
   - cd vendor/kenjis/codeigniter-cli
   - composer install
