@@ -17,7 +17,7 @@ use Kenjis\CodeIgniter_Cli\UserConfig;
 class Common extends Config
 {
     /**
-     * @var array list of system commands
+     * @var array list of built-in commands
      */
     private $commands = [
         'Seed', 'Migrate', 'Generate', 'Run',
@@ -32,7 +32,7 @@ class Common extends Config
         /* @var $ci \CI_Controller */
         $ci =& get_instance();
 
-        // register system command classes
+        // register built-in command classes
         foreach ($this->commands as $command) {
             $class = 'Kenjis\CodeIgniter_Cli\Command\\' . $command;
             $di->params[$class] = [
@@ -80,7 +80,7 @@ class Common extends Config
         $dispatcher = $di->get('aura/cli-kernel:dispatcher');
         $help_service = $di->get('aura/cli-kernel:help_service');
 
-        // register system commands
+        // register built-in commands
         foreach ($this->commands as $command) {
             $class = 'Kenjis\CodeIgniter_Cli\Command\\' . $command;
             $command_name = strtolower($command);
@@ -96,7 +96,7 @@ class Common extends Config
             );
         }
 
-                // register user commands
+        // register user commands
         UserConfig::registerCommands(
             $di, $dispatcher, $help_service, $this->user_command_paths
         );
