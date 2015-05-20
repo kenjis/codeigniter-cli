@@ -44,7 +44,35 @@ class Migration extends Command
         }
 
         $migration_path = $this->config->item('migration_path');
+
+        $classname = ucfirst(strtolower($classname));
+
         $file_path = $migration_path . date('YmdHis') . '_' . $classname . '.php';
+
+        //check file exist
+        if (file_exists($file_path)) {
+            $this->stdio->errln(
+                "<<red>>The file \"$file_path\" already exists<<reset>>"
+            );
+            return Status::FAILURE;
+        }
+
+        //check class exist
+        foreach (glob($migration_path.'*_*.php') as $file)
+        {
+            $name = basename($file, '.php');
+
+            //use date('YmdHis') so...
+            if (preg_match('/^\d{14}_(\w+)$/', $name, $match))
+            {
+                if ($match[1] === $classname) {
+                    $this->stdio->errln(
+                        "<<red>>The Class \"$classname\" already exists<<reset>>"
+                    );
+                    return Status::FAILURE;
+                }
+            }
+        }
 
         $template = file_get_contents(__DIR__ . '/templates/Migration.txt');
         $search = [
