@@ -38,7 +38,7 @@ class MigrateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Status::USAGE, $status);
 
         $this->stderr->rewind();
-        $actual = $this->stderr->fread(8192);
+        $actual = $this->stderr->fread();
         $expected = 'No such command: command-not-exists' . PHP_EOL;
         $this->assertEquals($expected, $actual);
     }
@@ -46,7 +46,7 @@ class MigrateTest extends \PHPUnit_Framework_TestCase
     public function test_migrate()
     {
         $status = $this->cmd->__invoke();
-        $this->assertEquals(0, $status);
+        $this->assertEquals(Status::SUCCESS, $status);
     }
 
     public function test_migrate_to_version_not_exists()
@@ -58,16 +58,16 @@ class MigrateTest extends \PHPUnit_Framework_TestCase
         public function test_migrate_to_specific_version()
     {
         $status = $this->cmd->__invoke('20150429110003');
-        $this->assertEquals(0, $status);
+        $this->assertEquals(Status::SUCCESS, $status);
     }
 
     public function test_status()
     {
         $status = $this->cmd->__invoke('status');
-        $this->assertEquals(0, $status);
+        $this->assertEquals(Status::SUCCESS, $status);
 
         $this->stdout->rewind();
-        $actual = $this->stdout->fread(8192);
+        $actual = $this->stdout->fread();
         $this->assertContains('20150429090001_Create_bbs.php', $actual);
         $this->assertContains('20150429110003_Create_category.php (current/database)', $actual);
     }
@@ -76,10 +76,10 @@ class MigrateTest extends \PHPUnit_Framework_TestCase
     {
         $this->ci->config->set_item('migration_version', 20150429120004);
         $status = $this->cmd->__invoke('status');
-        $this->assertEquals(0, $status);
+        $this->assertEquals(Status::SUCCESS, $status);
 
         $this->stdout->rewind();
-        $actual = $this->stdout->fread(8192);
+        $actual = $this->stdout->fread();
         $this->assertContains('20150429110003_Create_category.php (database)', $actual);
         $this->assertContains('20150429120004_Create_product.php (current)', $actual);
     }
@@ -87,10 +87,10 @@ class MigrateTest extends \PHPUnit_Framework_TestCase
     public function test_version()
     {
         $status = $this->cmd->__invoke('version');
-        $this->assertEquals(0, $status);
+        $this->assertEquals(Status::SUCCESS, $status);
 
         $this->stdout->rewind();
-        $actual = $this->stdout->fread(8192);
+        $actual = $this->stdout->fread();
         $this->assertContains(' current: 20150429110003 (in config/migration.php)', $actual);
         $this->assertContains('database: 20150429110003 (in database table)', $actual);
         $this->assertContains('  latest: 20150429120004 (in migration files)', $actual);
