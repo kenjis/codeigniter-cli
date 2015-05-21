@@ -28,7 +28,7 @@ class RunTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Status::USAGE, $status);
 
         $this->stderr->rewind();
-        $actual = $this->stderr->fread(8192);
+        $actual = $this->stderr->fread();
         $expected = 'Controller is needed' . PHP_EOL;
         $this->assertEquals($expected, $actual);
     }
@@ -38,10 +38,10 @@ class RunTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $status = $this->cmd->__invoke('welcome');
         ob_end_clean();
-        $this->assertEquals(0, $status);
+        $this->assertEquals(Status::SUCCESS, $status);
 
         $this->stdout->rewind();
-        $actual = $this->stdout->fread(8192);
+        $actual = $this->stdout->fread();
         $expected = 'php public/index.php welcome';
         $this->assertContains($expected, $actual);
     }
