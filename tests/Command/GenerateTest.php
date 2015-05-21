@@ -20,6 +20,11 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $this->stdout = $this->stdio->getStdout();
         $this->stderr = $this->stdio->getStderr();
         $this->cmd = new Generate($context, $this->stdio, $this->ci);
+
+        $this->migration_path = __DIR__ . '/../Fake/migrations/';
+        foreach (glob($this->migration_path . '*_Test_of_generate_migration.php') as $file) {
+            unlink($file);
+        }
     }
 
     public function test_no_generator()
@@ -47,27 +52,62 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
 
     public function test_migration_generate()
     {
-        $migration_path = __DIR__ . '/../Fake/migrations/';
-        $this->ci->config->set_item('migration_path', $migration_path);
+        $this->ci->config->set_item('migration_path', $this->migration_path);
         $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
         $this->assertEquals(Status::SUCCESS, $status);
+    }
 
-        foreach (glob($migration_path . '*_Test_of_generate_migration.php') as $file) {
-            unlink($file);
-        }
+    public function test_migration_generate_file_exist()
+    {
+        $this->ci->config->set_item('migration_path', $this->migration_path);
+        $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
+        $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
+        $this->stderr->rewind();
+        $error = $this->stderr->fread();
+        $expected = '_Test_of_generate_migration.php" already exists';
+        $this->assertContains($expected, $error);
+        $this->assertEquals(Status::FAILURE, $status);
     }
 
     public function test_migration_generate_class_exist()
     {
-        $migration_path = __DIR__ . '/../Fake/migrations/';
-        $this->ci->config->set_item('migration_path', $migration_path);
+        $this->ci->config->set_item('migration_path', $this->migration_path);
         $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
-        $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
-        $this->assertEquals(Status::FAILURE, $status);
-        $status = $this->cmd->__invoke('migration', 'Test_of_Generate_Migration');
-        $this->assertEquals(Status::FAILURE, $status);
 
-        foreach (glob($migration_path . '*_Test_of_generate_migration.php') as $file) {
+        // sleep not to generate the same file name
+        sleep(1);
+        $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
+        $this->stderr->rewind();
+        $error = $this->stderr->fread();
+        $expected = 'The Class "Test_of_generate_migration" already exists' . PHP_EOL;
+        $this->assertEquals($expected, $error);
+        $this->assertEquals(Status::FAILURE, $status);
+    }
+
+    public function test_migration_generate_class_exist_with_diff_case()
+    {
+        $this->ci->config->set_item('migration_path', $this->migration_path);
+        $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
+
+        // sleep not to generate the same file name
+        sleep(1);
+        $status = $this->cmd->__invoke('migration', 'Test_of_Generate_Migration');
+        $this->stderr->rewind();
+        $error = $this->stderr->fread();
+        $expected = 'The Class "Test_of_generate_migration" already exists' . PHP_EOL;
+        $this->assertEquals($expected, $error);
+        $this->assertEquals(Status::FAILURE, $status);
+    }
+
+    public function test_migration_generate_sequential()
+    {
+        $this->ci->config->set_item('migration_path', $this->migration_path);
+        $this->ci->config->set_item('migration_type', 'sequential');
+        $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
+        $this->assertEquals(Status::SUCCESS, $status);
+
+        foreach (glob($this->migration_path . '*_Test_of_generate_migration.php') as $file) {
+            $this->assertContains('003_Test_of_generate_migration', $file);
             unlink($file);
         }
     }

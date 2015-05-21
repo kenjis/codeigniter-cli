@@ -45,8 +45,29 @@ class Migration extends Command
         }
 
         $migration_path = $this->config->item('migration_path');
+        $migration_type = $this->config->item('migration_type');
 
-        $file_path = $migration_path . date('YmdHis') . '_' . $classname . '.php';
+        if ($migration_type === 'sequential') {
+            $migrations = [];
+
+            // find max version
+            foreach (glob($migration_path . '*_*.php') as $file) {
+                $name = basename($file, '.php');
+
+                if (preg_match('/^\d{3}_(\w+)$/', $name)) {
+                    $number = sscanf($name, '%[0-9]+', $number) ? $number : '0';
+                    $migrations[] = $number;
+                }
+            }
+
+            $version = 0;
+
+            $migrations !== [] && $version = max($migrations);
+
+            $file_path = $migration_path . sprintf('%03d', ++$version) . '_' . $classname . '.php';
+        } else {
+            $file_path = $migration_path . date('YmdHis') . '_' . $classname . '.php';
+        }
 
         // check file exist
         if (file_exists($file_path)) {
@@ -59,12 +80,10 @@ class Migration extends Command
         // check class exist
         foreach (glob($migration_path . '*_*.php') as $file) {
             $name = basename($file, '.php');
-
-            // use date('YmdHis') so...
-            if (preg_match('/^\d{14}_(\w+)$/', $name, $match)) {
+            if (preg_match($migration_type === 'timestamp' ? '/^\d{14}_(\w+)$/' : '/^\d{3}_(\w+)$/', $name, $match)) {
                 if (strtolower($match[1]) === strtolower($classname)) {
                     $this->stdio->errln(
-                        "<<red>>The Class \"$classname\" already exists<<reset>>"
+                        "<<red>>The Class \"$match[1]\" already exists<<reset>>"
                     );
                     return Status::FAILURE;
                 }
