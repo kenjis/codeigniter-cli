@@ -50,7 +50,22 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $migration_path = __DIR__ . '/../Fake/migrations/';
         $this->ci->config->set_item('migration_path', $migration_path);
         $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
-        $this->assertEquals(0, $status);
+        $this->assertEquals(Status::SUCCESS, $status);
+
+        foreach (glob($migration_path . '*_Test_of_generate_migration.php') as $file) {
+            unlink($file);
+        }
+    }
+
+    public function test_migration_generate_class_exist()
+    {
+        $migration_path = __DIR__ . '/../Fake/migrations/';
+        $this->ci->config->set_item('migration_path', $migration_path);
+        $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
+        $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
+        $this->assertEquals(Status::FAILURE, $status);
+        $status = $this->cmd->__invoke('migration', 'Test_of_Generate_Migration');
+        $this->assertEquals(Status::FAILURE, $status);
 
         foreach (glob($migration_path . '*_Test_of_generate_migration.php') as $file) {
             unlink($file);
@@ -63,7 +78,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $this->ci->config->set_item('migration_path', $migration_path);
         $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
         $this->assertEquals(Status::FAILURE, $status);
-        
+
         $this->stderr->rewind();
         $actual = $this->stderr->fread(8192);
         $this->assertContains("Can't write to ", $actual);
