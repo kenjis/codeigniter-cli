@@ -64,10 +64,22 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
         $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
         $this->assertEquals(Status::FAILURE, $status);
-        $status = $this->cmd->__invoke('migration', 'Test_of_Generate_Migration');
-        $this->assertEquals(Status::FAILURE, $status);
 
         foreach (glob($migration_path . '*_Test_of_generate_migration.php') as $file) {
+            unlink($file);
+        }
+    }
+
+    public function test_migration_generate_sequential()
+    {
+        $migration_path = __DIR__ . '/../Fake/migrations/';
+        $this->ci->config->set_item('migration_path', $migration_path);
+        $this->ci->config->set_item('migration_type', 'sequential');
+        $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
+        $this->assertEquals(Status::SUCCESS, $status);
+
+        foreach (glob($migration_path . '*_Test_of_generate_migration.php') as $file) {
+            $this->assertContains('001_Test_of_generate_migration', $file);
             unlink($file);
         }
     }
