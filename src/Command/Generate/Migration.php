@@ -45,8 +45,6 @@ class Migration extends Command
 
         $migration_path = $this->config->item('migration_path');
 
-        $classname = ucfirst(strtolower($classname));
-
         $file_path = $migration_path . date('YmdHis') . '_' . $classname . '.php';
 
         //check file exist
