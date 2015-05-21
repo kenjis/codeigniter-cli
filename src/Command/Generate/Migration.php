@@ -63,17 +63,8 @@ class Migration extends Command
 
             $version = 0;
 
-            if ($migrations !== []) {
-                $version = max($migrations);
+            $migrations !== [] && $version = max($migrations);
 
-                // check max version
-                if ((int)$version === 999) {
-                    $this->stdio->errln(
-                        "<<red>>The version number is out of range<<reset>>"
-                    );
-                    return Status::FAILURE;
-                }
-            }
             $file_path = $migration_path . sprintf('%03d', ++$version) . '_' . $classname . '.php';
         } else {
             $file_path = $migration_path . date('YmdHis') . '_' . $classname . '.php';
