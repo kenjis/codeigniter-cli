@@ -33,7 +33,7 @@ class UserConfigTest extends \PHPUnit_Framework_TestCase
         $ci = new \stdClass();
         $paths = [ __DIR__ . '/Fake/user_commands/' ];
         UserConfig::registerCommandClasses($this->di, $ci, $paths);
-        
+
         $this->assertTrue(array_key_exists('TestCommand', $this->di->params));
     }
 
@@ -42,10 +42,10 @@ class UserConfigTest extends \PHPUnit_Framework_TestCase
         $ci = new \stdClass();
         $paths = [ __DIR__ . '/Fake/user_commands_bad/' ];
         UserConfig::registerCommandClasses($this->di, $ci, $paths);
-        
+
         $stderr = $this->di->get('aura/cli-kernel:stdio')->getStderr();
         $stderr->rewind();
-        $actual = $stderr->fread(8192);
+        $actual = $stderr->fread();
         $expected = 'No such class: BadCommand';
         $this->assertContains($expected, $actual);
     }
@@ -66,7 +66,7 @@ class UserConfigTest extends \PHPUnit_Framework_TestCase
         $help_service = $this->di->get('aura/cli-kernel:help_service');
         $paths = [ __DIR__ . '/Fake/user_commands/' ];
         UserConfig::registerCommands($this->di, $dispatcher, $help_service, $paths);
-        
+
         $this->assertTrue($dispatcher->hasObject('test'));
         $this->assertTrue($help_service->has('test'));
     }
