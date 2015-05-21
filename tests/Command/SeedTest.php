@@ -29,10 +29,10 @@ class SeedTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Table1SeederTable2SeederTable1Seeder');
         $status = $this->cmd->__invoke();
-        $this->assertEquals(0, $status);
+        $this->assertEquals(Status::SUCCESS, $status);
 
         $this->stdout->rewind();
-        $actual = $this->stdout->fread(8192);
+        $actual = $this->stdout->fread();
         $expected = 'Seeded: Table1Seeder' . PHP_EOL
             . 'Seeded: Table2Seeder' . PHP_EOL
             . 'Seeded: Table1Seeder' . PHP_EOL
@@ -44,10 +44,10 @@ class SeedTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Table1Seeder');
         $status = $this->cmd->__invoke('Table1Seeder');
-        $this->assertEquals(0, $status);
+        $this->assertEquals(Status::SUCCESS, $status);
 
         $this->stdout->rewind();
-        $actual = $this->stdout->fread(8192);
+        $actual = $this->stdout->fread();
         $expected = 'Seeded: Table1Seeder' . PHP_EOL;
         $this->assertEquals($expected, $actual);
     }
@@ -65,10 +65,10 @@ class SeedTest extends \PHPUnit_Framework_TestCase
         $this->cmd->setSeederPath($this->seeder_path);
 
         $status = $this->cmd->__invoke();
-        $this->assertEquals(0, $status);
+        $this->assertEquals(Status::SUCCESS, $status);
 
         $this->stdout->rewind();
-        $actual = $this->stdout->fread(8192);
+        $actual = $this->stdout->fread();
         $this->assertContains('Table1Seeder', $actual);
         $this->assertContains('Table2Seeder', $actual);
     }
