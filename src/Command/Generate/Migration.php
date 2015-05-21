@@ -24,6 +24,7 @@ class Migration extends Command
 {
     public function __construct(Context $context, Stdio $stdio, CI_Controller $ci) {
         parent::__construct($context, $stdio, $ci);
+        $this->load->library('migration');
         $this->load->config('migration');
     }
 
@@ -44,7 +45,28 @@ class Migration extends Command
         }
 
         $migration_path = $this->config->item('migration_path');
-        $file_path = $migration_path . date('YmdHis') . '_' . $classname . '.php';
+        $migration_type = $this->config->item('migration_type');
+
+        if ($migration_type === 'sequential') {
+            $files = $this->migration->find_migrations();
+            if (empty($files)) {
+                $version = 0;
+            } else {
+                end($files);
+                $version = key($files);
+
+                //max version
+                if ($version == 999) {
+                    $this->stdio->errln(
+                        "<<red>>The version number is out of range<<reset>>"
+                    );
+                    return Status::FAILURE;
+                }
+            }
+            $file_path = $migration_path . sprintf('%03d', ++$version) . '_' . $classname . '.php';
+        } else {
+            $file_path = $migration_path . date('YmdHis') . '_' . $classname . '.php';
+        }
 
         $template = file_get_contents(__DIR__ . '/templates/Migration.txt');
         $search = [
