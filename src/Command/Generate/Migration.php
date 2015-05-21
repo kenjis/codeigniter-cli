@@ -48,10 +48,9 @@ class Migration extends Command
         $migration_type = $this->config->item('migration_type');
 
         if ($migration_type === 'sequential') {
+            $migrations = [];
 
-            $migrations = array();
-
-            // fax max version
+            // find max version
             foreach (glob($migration_path . '*_*.php') as $file) {
                 $name = basename($file, '.php');
 
@@ -81,11 +80,10 @@ class Migration extends Command
         // check class exist
         foreach (glob($migration_path . '*_*.php') as $file) {
             $name = basename($file, '.php');
-
             if (preg_match($migration_type === 'timestamp' ? '/^\d{14}_(\w+)$/' : '/^\d{3}_(\w+)$/', $name, $match)) {
                 if (strtolower($match[1]) === strtolower($classname)) {
                     $this->stdio->errln(
-                        "<<red>>The Class \"$classname\" already exists<<reset>>"
+                        "<<red>>The Class \"$match[1]\" already exists<<reset>>"
                     );
                     return Status::FAILURE;
                 }
