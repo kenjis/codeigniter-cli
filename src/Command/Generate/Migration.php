@@ -25,7 +25,6 @@ class Migration extends Command
     public function __construct(Context $context, Stdio $stdio, CI_Controller $ci)
     {
         parent::__construct($context, $stdio, $ci);
-        $this->load->library('migration');
         $this->load->config('migration');
     }
 
@@ -49,15 +48,26 @@ class Migration extends Command
         $migration_type = $this->config->item('migration_type');
 
         if ($migration_type === 'sequential') {
-            $files = $this->migration->find_migrations();
-            if (empty($files)) {
-                $version = 0;
-            } else {
-                end($files);
-                $version = key($files);
+
+            $migrations = array();
+
+            // fax max version
+            foreach (glob($migration_path . '*_*.php') as $file) {
+                $name = basename($file, '.php');
+
+                if (preg_match('/^\d{3}_(\w+)$/', $name)) {
+                    $number = sscanf($name, '%[0-9]+', $number) ? $number : '0';
+                    $migrations[] = $number;
+                }
+            }
+
+            $version = 0;
+
+            if ($migrations !== []) {
+                $version = max($migrations);
 
                 // check max version
-                if ($version == 999) {
+                if ((int)$version === 999) {
                     $this->stdio->errln(
                         "<<red>>The version number is out of range<<reset>>"
                     );
@@ -68,8 +78,6 @@ class Migration extends Command
         } else {
             $file_path = $migration_path . date('YmdHis') . '_' . $classname . '.php';
         }
-
-        $file_path = $migration_path . date('YmdHis') . '_' . $classname . '.php';
 
         // check file exist
         if (file_exists($file_path)) {
@@ -83,8 +91,7 @@ class Migration extends Command
         foreach (glob($migration_path . '*_*.php') as $file) {
             $name = basename($file, '.php');
 
-            // use date('YmdHis') so...
-            if (preg_match('/^\d{14}_(\w+)$/', $name, $match)) {
+            if (preg_match($migration_type === 'timestamp' ? '/^\d{14}_(\w+)$/' : '/^\d{3}_(\w+)$/', $name, $match)) {
                 if (strtolower($match[1]) === strtolower($classname)) {
                     $this->stdio->errln(
                         "<<red>>The Class \"$classname\" already exists<<reset>>"

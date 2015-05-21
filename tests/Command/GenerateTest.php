@@ -64,6 +64,8 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
         $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
         $this->assertEquals(Status::FAILURE, $status);
+        $status = $this->cmd->__invoke('migration', 'Test_of_Generate_Migration');
+        $this->assertEquals(Status::FAILURE, $status);
 
         foreach (glob($migration_path . '*_Test_of_generate_migration.php') as $file) {
             unlink($file);
@@ -79,7 +81,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Status::SUCCESS, $status);
 
         foreach (glob($migration_path . '*_Test_of_generate_migration.php') as $file) {
-            $this->assertContains('001_Test_of_generate_migration', $file);
+            $this->assertContains('003_Test_of_generate_migration', $file);
             unlink($file);
         }
     }
