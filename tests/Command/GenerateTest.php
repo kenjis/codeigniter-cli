@@ -72,6 +72,20 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function test_migration_generate_sequential()
+    {
+        $migration_path = __DIR__ . '/../Fake/migrations/';
+        $this->ci->config->set_item('migration_path', $migration_path);
+        $this->ci->config->set_item('migration_type', 'sequential');
+        $status = $this->cmd->__invoke('migration', 'Test_of_generate_migration');
+        $this->assertEquals(Status::SUCCESS, $status);
+
+        foreach (glob($migration_path . '*_Test_of_generate_migration.php') as $file) {
+            $this->assertContains('001_Test_of_generate_migration', $file);
+            unlink($file);
+        }
+    }
+
     public function test_migration_cannot_write_to_file()
     {
         $migration_path = __DIR__ . '/../Fake/migrations/not-exist-dir/';
