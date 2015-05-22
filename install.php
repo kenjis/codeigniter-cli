@@ -20,10 +20,18 @@ class Installer
         @mkdir('tmp', 0755);
         @mkdir('tmp/log', 0755);
         
-        copy('vendor/kenjis/codeigniter-cli/cli', 'cli');
-        copy('vendor/kenjis/codeigniter-cli/ci_instance.php', 'ci_instance.php');
+        static::copy('vendor/kenjis/codeigniter-cli/cli', 'cli');
+        static::copy('vendor/kenjis/codeigniter-cli/ci_instance.php', 'ci_instance.php');
         
         chmod('cli', 0755);
+    }
+
+    private static function copy($src, $dst)
+    {
+        $success = copy($src, $dst);
+        if ($success) {
+            echo 'copied: ' . $dst . PHP_EOL;
+        }
     }
 
     /**
