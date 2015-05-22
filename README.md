@@ -181,8 +181,8 @@ $ composer install
 $ phpunit
 ~~~
 
-## Related
+## Related Projects for CodeIgniter 3.0
 
-If you want to install CodeIgniter via Composer, check it.
-
-* https://github.com/kenjis/codeigniter-composer-installer
+* [CodeIgniter Composer Installer](https://github.com/kenjis/codeigniter-composer-installer)
+* [CI PHPUnit Test](https://github.com/kenjis/ci-phpunit-test)
+* [CodeIgniter Simple and Secure Twig](https://github.com/kenjis/codeigniter-ss-twig)
