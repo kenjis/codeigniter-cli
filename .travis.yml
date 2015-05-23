@@ -6,9 +6,9 @@ php:
   - 5.6
 
 before_script:
-  - composer self-update
   - pwd
   - export cwd=`pwd`
+  - composer self-update
   - cd ..
   - pwd
   - composer create-project kenjis/codeigniter-composer-installer codeigniter
@@ -18,11 +18,13 @@ before_script:
   - mv "$cwd" vendor/kenjis/codeigniter-cli
   - php vendor/kenjis/codeigniter-cli/install.php
   - cd vendor/kenjis/codeigniter-cli
+  - pwd
   - composer install
 
 script:
+  - pwd
   - phpunit --coverage-text
 
 after_script:
-  - cd vendor/kenjis/codeigniter-cli
+  - pwd
   - php vendor/bin/coveralls -v
