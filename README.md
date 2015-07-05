@@ -45,7 +45,7 @@ Install this project with Composer:
 
 ~~~
 $ cd /path/to/codeigniter/
-$ composer require kenjis/codeigniter-cli:1.0.x@dev --dev
+$ composer require kenjis/codeigniter-cli --dev
 ~~~
 
 Install command file (`cli`) and config files (`config/`) to your CodeIgniter project:
@@ -62,8 +62,10 @@ Fix the paths in `ci_instance.php` if you need.
 ~~~php
 $system_path        = 'vendor/codeigniter/framework/system';
 $application_folder = 'application';
-$doc_root           = 'public';
+$doc_root           = 'public'; // where index.php is
 ~~~
+
+If you install CodeIgniter using [codeigniter-composer-installer](https://github.com/kenjis/codeigniter-composer-installer), you don't have to change them.
 
 ## Usage
 
