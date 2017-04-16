@@ -2,8 +2,6 @@
 
 namespace Kenjis\CodeIgniter_Cli\Command;
 
-require_once __DIR__ . '/../Fake/Command/Test.php';
-
 use Aura\Cli\CliFactory;
 use Aura\Cli\Status;
 
