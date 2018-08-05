@@ -15,13 +15,13 @@ class Installer
 {
     public static function install()
     {
-        self::recursiveCopy('vendor/kenjis/codeigniter-cli/config', 'config');
+        self::recursiveCopy('application/vendor/kenjis/codeigniter-cli/config', 'config');
         
         @mkdir('tmp', 0755);
         @mkdir('tmp/log', 0755);
         
-        self::copy('vendor/kenjis/codeigniter-cli/cli', 'cli');
-        self::copy('vendor/kenjis/codeigniter-cli/ci_instance.php', 'ci_instance.php');
+        self::copy('application/vendor/kenjis/codeigniter-cli/cli', 'cli');
+        self::copy('application/vendor/kenjis/codeigniter-cli/ci_instance.php', 'ci_instance.php');
         
         chmod('cli', 0755);
     }
