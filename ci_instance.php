@@ -68,6 +68,9 @@ $GLOBALS['CFG'] = & load_class('Config', 'core');
 $GLOBALS['UNI'] = & load_class('Utf8', 'core');
 $GLOBALS['SEC'] = & load_class('Security', 'core');
 
+$EXT = & load_class('Hooks', 'core', $GLOBALS['CFG']);
+$EXT->call_hook('pre_system');
+
 load_class('Loader', 'core');
 load_class('Router', 'core');
 load_class('Input', 'core');
